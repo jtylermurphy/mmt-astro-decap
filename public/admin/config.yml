@@ -1,0 +1,117 @@
+backend:
+  name: git-gateway
+  branch: main
+
+local_backend: true
+
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+publish_mode: editorial_workflow
+
+collections:
+  - name: "tours"
+    label: "Tours"
+    folder: "src/content/tours"
+    create: true
+    slug: "{{slug}}"
+    format: "frontmatter"
+    fields:
+      - { name: "title", label: "Tour Title", widget: "string" }
+      - { name: "price", label: "Price", widget: "number", hint: "Enter a number only, without $ or text" }
+      - { name: "duration", label: "Duration", widget: "string", hint: "Example: '2 hours' or 'Half day'" }
+      - { name: "image", label: "Feature Image", widget: "image", hint: "Upload a photo that best represents the tour" }
+      - {
+          name: "booking_url",
+          label: "Booking URL",
+          widget: "string",
+          hint: "Paste the full link to book (must start with https://)",
+        }
+      - { name: "body", label: "Description", widget: "markdown" }
+
+  - name: "blog"
+    label: "Blog"
+    folder: "src/content/blog"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    format: "frontmatter"
+    fields:
+      - { name: "title", label: "Title", widget: "string" }
+      - { name: "date", label: "Publish Date", widget: "datetime" }
+      - { name: "description", label: "SEO Description", widget: "text", hint: "1–2 sentences for meta/SEO" }
+      - { name: "image", label: "Hero Image", widget: "image" }
+      - { name: "thumbnail", label: "Thumbnail", widget: "image", required: false, hint: "Used in cards/lists" }
+      - { name: "teaser", label: "Teaser (Excerpt)", widget: "text", hint: "Short summary (~140–200 chars)" }
+      - { name: "enable_cta", label: "Show Button (CTA)", widget: "boolean", default: false }
+      - { name: "cta_label", label: "Button Label", widget: "string", required: false }
+      - { name: "cta_url", label: "Button URL", widget: "string", required: false, hint: "Must start with https://" }
+      - { name: "body", label: "Post Content", widget: "markdown" }
+
+  - name: "settings"
+    label: "Site Settings"
+    files:
+      - name: "global"
+        label: "Global Settings"
+        file: "src/content/settings/global.md"
+        fields:
+          - { name: "title", widget: "hidden", default: "Global Settings" }
+          - { name: "company_name", label: "Company Name", widget: "string" }
+          - name: "address"
+            label: "Address"
+            widget: "object"
+            required: false
+            fields:
+              - { name: "street", label: "Street", widget: "string", required: false }
+              - { name: "city", label: "City", widget: "string", required: false }
+              - { name: "state", label: "State", widget: "string", required: false }
+              - { name: "zip", label: "ZIP", widget: "string", required: false }
+          - { name: "phone", label: "Phone", widget: "string", required: false }
+          - { name: "email", label: "Email", widget: "string", required: false }
+          - { name: "hours", label: "Business Hours", widget: "text", required: false, hint: "e.g., Mon–Fri 9–5" }
+          - { name: "facebook", label: "Facebook URL", widget: "string", required: false }
+          - { name: "instagram", label: "Instagram URL", widget: "string", required: false }
+          - { name: "tiktok", label: "TikTok URL", widget: "string", required: false }
+          - { name: "youtube", label: "YouTube URL", widget: "string", required: false }
+          - { name: "threads", label: "Threads URL", widget: "string", required: false }
+          - { name: "logo", label: "Logo (SVG/PNG)", widget: "image", required: false }
+          - name: "seo"
+            label: "Default SEO"
+            widget: "object"
+            required: false
+            fields:
+              - { name: "site_title", label: "Site Title", widget: "string", required: false }
+              - { name: "meta_description", label: "Meta Description", widget: "text", required: false }
+
+  - name: "pages"
+    label: "Pages"
+    files:
+      - name: "home"
+        label: "Home"
+        file: "src/content/pages/home.md"
+        fields:
+          - { name: "hero_heading", label: "Hero Heading", widget: "string", required: false }
+          - { name: "hero_subheading", label: "Hero Subheading", widget: "text", required: false }
+          - { name: "hero_image", label: "Hero Image", widget: "image", required: false }
+          - { name: "body", label: "Body", widget: "markdown", required: false }
+      - name: "about"
+        label: "About"
+        file: "src/content/pages/about.md"
+        fields:
+          - { name: "title", label: "Page Title", widget: "string" }
+          - { name: "body", label: "Body", widget: "markdown" }
+      - name: "faq"
+        label: "FAQ"
+        file: "src/content/pages/faq.md"
+        fields:
+          - name: "items"
+            label: "FAQ Items"
+            widget: "list"
+            fields:
+              - { name: "q", label: "Question", widget: "string" }
+              - { name: "a", label: "Answer", widget: "text" }
+      - name: "contact"
+        label: "Contact"
+        file: "src/content/pages/contact.md"
+        fields:
+          - { name: "intro", label: "Intro Text", widget: "markdown", required: false }
+          - { name: "body", label: "Body", widget: "markdown", required: false }
