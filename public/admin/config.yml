@@ -40,12 +40,11 @@ collections:
       - { name: "price", label: "Price", widget: "number", hint: "Enter a number only, without $ or text" }
       - { name: "duration", label: "Duration", widget: "string", hint: "Example: '2 hours' or 'Half day'" }
       - { name: "image", label: "Feature Image", widget: "image", hint: "Upload a photo that best represents the tour" }
-      - {
-          name: "booking_url",
-          label: "Booking URL",
-          widget: "string",
-          hint: "Paste the full link to book (must start with https://)",
-        }
+      - name: "booking_url"
+        label: "Booking URL"
+        widget: "string"
+        hint: "Paste the full link to book (must start with https://)"
+
       - { name: "body", label: "Description", widget: "markdown" }
 
   - name: "blog"
