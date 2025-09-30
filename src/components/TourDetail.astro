@@ -1,0 +1,141 @@
+---
+// src/components/TourDetail.astro
+
+interface Props {
+  title: string;
+  imageSrc?: string;
+  imageAlt?: string;
+  duration?: string;
+  priceNumber?: number; // 39 -> "$39 per person"
+  scheduleText?: string; // "Daily 9am & 1pm"
+  features?: string[]; // bullets like “Air-conditioned van”
+  bookingUrl?: string; // link or #book
+  bodyHtml?: string; // optional rendered HTML; otherwise use <slot/>
+}
+
+const {
+  title,
+  imageSrc,
+  imageAlt = title,
+  duration,
+  priceNumber,
+  scheduleText,
+  features = [],
+  bookingUrl,
+  bodyHtml,
+} = Astro.props as Props;
+
+function formatPrice(n?: number) {
+  if (n == null) return "";
+  return `$${n} per person`;
+}
+---
+
+<section class="bg-white">
+  <div class="mx-auto max-w-7xl px-4 py-12">
+    <!-- Header -->
+    <header class="mb-8">
+      <h1 class="text-3xl font-semibold tracking-tight">{title}</h1>
+    </header>
+
+    <div class="grid gap-8 lg:grid-cols-3">
+      <!-- Media -->
+      {
+        imageSrc && (
+          <div class="lg:col-span-2">
+            <img
+              src={imageSrc}
+              alt={imageAlt}
+              class="w-full rounded-2xl shadow-sm object-cover"
+              loading="eager"
+              decoding="async"
+            />
+          </div>
+        )
+      }
+
+      <!-- Quick facts / CTA -->
+      <aside class="lg:col-span-1">
+        <div class="rounded-2xl border shadow-sm p-5 bg-white">
+          <h2 class="text-lg font-semibold mb-4">Quick facts</h2>
+          <dl class="space-y-3 text-sm text-slate-700">
+            {
+              duration && (
+                <div class="flex items-start gap-2">
+                  <dt class="shrink-0">⏱</dt>
+                  <dd>{duration}</dd>
+                </div>
+              )
+            }
+            {
+              scheduleText && (
+                <div class="flex items-start gap-2">
+                  <dt class="shrink-0">🗓</dt>
+                  <dd>{scheduleText}</dd>
+                </div>
+              )
+            }
+            {
+              priceNumber != null && (
+                <div class="flex items-start gap-2">
+                  <dt class="shrink-0">💵</dt>
+                  <dd class="font-medium">{formatPrice(priceNumber)}</dd>
+                </div>
+              )
+            }
+          </dl>
+
+          {
+            features.length > 0 && (
+              <div class="mt-5">
+                <h3 class="text-sm font-semibold text-slate-900 mb-2">What’s included</h3>
+                <ul class="list-disc pl-5 text-sm text-slate-700 space-y-1">
+                  {features.map((f) => (
+                    <li>{f}</li>
+                  ))}
+                </ul>
+              </div>
+            )
+          }
+
+          {
+            bookingUrl && (
+              <div class="mt-6">
+                <a
+                  href={bookingUrl}
+                  class="inline-flex w-full items-center justify-center rounded-xl bg-emerald-600 px-5 py-3 text-sm font-semibold text-white hover:bg-emerald-700">
+                  Book Now
+                </a>
+              </div>
+            )
+          }
+        </div>
+      </aside>
+    </div>
+
+    <!-- Body -->
+    <div class="mt-10">
+      {
+        bodyHtml ? (
+          <div class="space-y-4" set:html={bodyHtml} />
+        ) : (
+          <div class="space-y-4">
+            <slot />
+          </div>
+        )
+      }
+    </div>
+
+    {
+      bookingUrl && (
+        <div id="book" class="mt-10">
+          <a
+            href={bookingUrl}
+            class="inline-flex items-center justify-center rounded-xl bg-emerald-600 px-6 py-3 text-sm font-semibold text-white hover:bg-emerald-700">
+            Book Now
+          </a>
+        </div>
+      )
+    }
+  </div>
+</section>

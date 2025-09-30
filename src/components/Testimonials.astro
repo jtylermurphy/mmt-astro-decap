@@ -1,0 +1,70 @@
+---
+/* src/components/Testimonials.astro */
+
+type Testimonial = {
+  quote: string;
+  authorName: string;
+  authorMeta?: string;
+  avatarSrc?: string;
+  rating?: number; // 0–5 (integers)
+};
+
+interface Props {
+  title?: string;
+  items: Testimonial[];
+  starColor?: string; // brand gold hex
+}
+
+const { title = "What guests say", items = [], starColor = "#ca902b" } = Astro.props as Props;
+
+const clamp = (n: number, min = 0, max = 5) => Math.max(min, Math.min(max, Math.floor(n)));
+const stars = [1, 2, 3, 4, 5];
+---
+
+<section class="bg-white">
+  <div class="mx-auto max-w-7xl px-4 py-12">
+    {title && <h2 class="text-2xl font-semibold tracking-tight mb-6">{title}</h2>}
+
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        items.map((t) => {
+          const rating = clamp(t.rating ?? 0);
+          return (
+            <figure class="rounded-2xl border p-6 shadow-sm bg-white">
+              <blockquote class="text-slate-800">
+                <p>“{t.quote}”</p>
+              </blockquote>
+
+              <div class="mt-4 flex items-center gap-3">
+                {t.avatarSrc && (
+                  <img
+                    src={t.avatarSrc}
+                    alt=""
+                    class="h-10 w-10 rounded-full object-cover"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                )}
+                <figcaption class="flex-1">
+                  <div class="font-medium">{t.authorName}</div>
+                  {t.authorMeta && <div class="text-sm text-slate-500">{t.authorMeta}</div>}
+                </figcaption>
+              </div>
+
+              <div class="mt-4 flex items-center gap-1" role="img" aria-label={`${rating} out of 5 stars`}>
+                {stars.map((i) => (
+                  <svg class="h-5 w-5" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path
+                      d="M10 2.5l2.472 4.87 5.378.782-3.89 3.793.918 5.355L10 14.98l-4.878 2.32.918-5.355L2.15 8.152l5.378-.782L10 2.5z"
+                      fill={i <= rating ? starColor : "#E5E7EB"}
+                    />
+                  </svg>
+                ))}
+              </div>
+            </figure>
+          );
+        })
+      }
+    </div>
+  </div>
+</section>

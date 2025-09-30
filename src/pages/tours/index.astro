@@ -1,0 +1,65 @@
+---
+// src/pages/tours/index.astro
+import Base from "../../layouts/Base.astro";
+import ToursIndex from "../../components/ToursIndex.astro";
+
+/* Local types to keep this file happy */
+type TourKind = "standard" | "custom" | "package";
+type CardInput = {
+  title: string;
+  teaser?: string;
+  duration?: string;
+  priceNumber?: number;
+  scheduleText?: string;
+  thumbnailSrc?: string;
+  href?: string;
+  bookingUrl?: string;
+  formUrl?: string;
+  kind?: TourKind;
+  ctaLabel?: string;
+};
+
+const tiles = [
+  {
+    title: "Standard City Highlights",
+    teaser: "See Jefferson City’s must-see spots with local narration.",
+    duration: "90 minutes",
+    scheduleText: "Daily 9am & 1pm",
+    priceNumber: 39,
+    thumbnailSrc: "/uploads/tour-standard.jpg",
+    href: "/tours/standard",
+    bookingUrl: "/tours/standard#book",
+    kind: "standard" as const,
+  },
+  {
+    title: "Custom Tours",
+    teaser: "Build your own route—history, art, faith, food, and more.",
+    duration: "You choose",
+    thumbnailSrc: "/uploads/tour-custom.jpg",
+    href: "/tours/custom",
+    formUrl: "/contact",
+    kind: "custom" as const,
+    ctaLabel: "Request Info",
+  },
+  {
+    title: "Packages",
+    teaser: "Bundle tours with local experiences for groups & events.",
+    duration: "Half-day / Full-day",
+    thumbnailSrc: "/uploads/tour-packages.jpg",
+    href: "/packages",
+    formUrl: "/contact",
+    kind: "package" as const,
+    ctaLabel: "See Packages",
+  },
+] satisfies CardInput[];
+---
+
+<Base
+  title="Tours | Mid MO Tours"
+  description="Explore our Standard City Highlights tour, design a Custom Tour, or choose from curated Packages.">
+  <ToursIndex
+    title="Choose Your Tour"
+    intro="Start with our Standard City Highlights tour, tailor something unique, or pick a curated package."
+    items={tiles}
+  />
+</Base>

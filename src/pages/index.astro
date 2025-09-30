@@ -1,16 +1,77 @@
 ---
+// src/pages/index.astro
+import Base from "../layouts/Base.astro";
+import Hero from "../components/Hero.astro";
+import FeaturedTours from "../components/FeaturedTours.astro";
+import Testimonials from "../components/Testimonials.astro";
 
+const featured = [
+  {
+    title: "Standard City Highlights",
+    teaser: "Hit the 18 must-see spots with lively narration from a local.",
+    duration: "90 minutes",
+    scheduleText: "Daily 9am & 1pm",
+    priceNumber: 39,
+    thumbnailSrc: "/uploads/tour-standard.jpg",
+    href: "/tours/standard",
+    bookingUrl: "/tours/standard#book",
+    kind: "standard" as const,
+  },
+  {
+    title: "Custom Tours",
+    teaser: "Build your own itinerary—history, art, food, or faith landmarks.",
+    duration: "You choose",
+    thumbnailSrc: "/uploads/tour-custom.jpg",
+    href: "/tours/custom",
+    formUrl: "/contact#custom-tour",
+    kind: "custom" as const,
+    ctaLabel: "Request Info",
+  },
+  {
+    title: "Packages",
+    teaser: "Bundle tours with local experiences for groups and events.",
+    duration: "Half-day / Full-day",
+    thumbnailSrc: "/uploads/tour-packages.jpg",
+    href: "/packages",
+    formUrl: "/contact",
+    kind: "package" as const,
+    ctaLabel: "See Packages",
+  },
+];
+
+const quotes = [
+  {
+    quote: "Fantastic way to see Jefferson City—learned so much history!",
+    authorName: "Amanda R.",
+    authorMeta: "Highlights Tour · July 2025",
+    rating: 5,
+  },
+  {
+    quote: "On time, friendly, and the stories made it memorable.",
+    authorName: "Marcus T.",
+    authorMeta: "Special Interest",
+    rating: 5,
+  },
+  {
+    quote: "Great for our family—kids loved the Capitol stop.",
+    authorName: "Brianna L.",
+    rating: 4,
+  },
+];
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Base
+  title="Mid MO Tours | Jefferson City Tours & Shuttles"
+  description="Guided tours of Jefferson City plus custom itineraries and packages.">
+  <Hero
+    heading="See Jefferson City the right way"
+    subheading="Guided tours and shuttle services from locals who know every story."
+    imageSrc="/uploads/home-hero.jpg"
+    primaryCta={{ label: "Book Now", href: "/tours/standard#book" }}
+    secondaryCta={{ label: "See Tours", href: "/tours/" }}
+  />
+
+  <FeaturedTours items={featured} />
+
+  <Testimonials items={quotes} starColor="#ca902b" />
+</Base>
