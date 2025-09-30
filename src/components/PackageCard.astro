@@ -1,0 +1,81 @@
+---
+// src/components/PackageCard.astro
+
+interface Props {
+  title: string;
+  includes?: string[]; // short bullets
+  duration?: string; // e.g., "Half-day"
+  priceText?: string; // e.g., "From $249" or "Contact for pricing"
+  thumbnailSrc?: string;
+  href?: string; // detail page (optional)
+  bookingUrl?: string; // direct booking (optional)
+  formUrl?: string; // request/info form (optional)
+  ctaLabel?: string; // override
+}
+
+const {
+  title,
+  includes = [],
+  duration,
+  priceText,
+  thumbnailSrc,
+  href,
+  bookingUrl,
+  formUrl,
+  ctaLabel,
+} = Astro.props as Props;
+
+const ctaHref = bookingUrl ?? formUrl ?? href ?? "#";
+const ctaText = ctaLabel ?? (bookingUrl ? "Book Now" : formUrl ? "Request Info" : href ? "See Details" : "Learn More");
+---
+
+<article class="flex flex-col overflow-hidden rounded-2xl border bg-white shadow-sm">
+  {
+    thumbnailSrc && (
+      <a href={href ?? ctaHref} class="block">
+        <img src={thumbnailSrc} alt="" class="h-48 w-full object-cover" loading="lazy" decoding="async" />
+      </a>
+    )
+  }
+
+  <div class="flex flex-1 flex-col gap-4 p-5">
+    <header class="flex items-start justify-between gap-3">
+      <h3 class="text-lg font-semibold tracking-tight">
+        {
+          href ? (
+            <a href={href} class="hover:underline">
+              {title}
+            </a>
+          ) : (
+            title
+          )
+        }
+      </h3>
+      {
+        duration && (
+          <span class="shrink-0 rounded-full border px-2 py-0.5 text-xs font-medium text-slate-700">{duration}</span>
+        )
+      }
+    </header>
+
+    {
+      includes.length > 0 && (
+        <ul class="list-disc pl-5 text-sm text-slate-700 space-y-1">
+          {includes.map((i) => (
+            <li>{i}</li>
+          ))}
+        </ul>
+      )
+    }
+
+    {priceText && <div class="mt-auto text-sm font-medium text-slate-900">{priceText}</div>}
+
+    <div class="pt-1">
+      <a
+        href={ctaHref}
+        class="inline-flex items-center justify-center rounded-xl bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700">
+        {ctaText}
+      </a>
+    </div>
+  </div>
+</article>

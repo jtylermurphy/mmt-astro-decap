@@ -1,0 +1,14 @@
+---
+// src/pages/faq.astro
+import Base from "../layouts/Base.astro";
+import FAQAccordion from "../components/FAQAccordion.astro";
+import faq from "../content/pages/faq.md";
+
+const items = ((faq as any).frontmatter?.items ?? []) as { q: string; a: string }[];
+---
+
+<Base
+  title="FAQ | Mid MO Tours"
+  description="Answers to common questions about our tours, custom itineraries, and packages.">
+  <FAQAccordion items={items} />
+</Base>

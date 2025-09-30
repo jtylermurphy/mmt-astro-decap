@@ -1,0 +1,39 @@
+---
+// src/components/FAQAccordion.astro
+
+type QA = { q: string; a: string };
+
+interface Props {
+  title?: string;
+  items: QA[];
+}
+
+const { title = "Frequently asked questions", items = [] } = Astro.props as Props;
+---
+
+<section class="bg-white">
+  <div class="mx-auto max-w-3xl px-4 py-12">
+    {title && <h1 class="text-3xl font-semibold tracking-tight">{title}</h1>}
+
+    <div class="mt-6 divide-y rounded-2xl border shadow-sm">
+      {
+        items.map((item) => (
+          <details class="group p-5">
+            <summary class="flex cursor-pointer list-none items-start justify-between gap-4">
+              <h2 class="text-base font-semibold text-slate-900">{item.q}</h2>
+              <svg
+                class="mt-1 h-5 w-5 shrink-0 transition-transform group-open:rotate-45"
+                viewBox="0 0 20 20"
+                aria-hidden="true">
+                <path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              </svg>
+            </summary>
+            <div class="mt-3 text-slate-700">
+              <p>{item.a}</p>
+            </div>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,38 @@
+---
+// src/components/FeaturedTours.astro
+import TourCard from "./TourCard.astro";
+
+type TourKind = "standard" | "custom" | "package" | string;
+type CardInput = {
+  title: string;
+  teaser?: string;
+  duration?: string;
+  priceNumber?: number;
+  scheduleText?: string;
+  thumbnailSrc?: string;
+  href?: string;
+  bookingUrl?: string;
+  formUrl?: string;
+  kind?: TourKind;
+  ctaLabel?: string;
+};
+
+interface Props {
+  title?: string;
+  items: CardInput[];
+}
+
+const { title = "Featured Tours", items = [] } = Astro.props as Props;
+---
+
+<section class="bg-white">
+  <div class="mx-auto max-w-7xl px-4 py-12">
+    <div class="mb-6 flex items-end justify-between gap-4">
+      <h2 class="text-2xl font-semibold tracking-tight">{title}</h2>
+    </div>
+
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {items.map((t) => <TourCard {...t} />)}
+    </div>
+  </div>
+</section>

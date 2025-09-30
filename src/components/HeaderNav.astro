@@ -1,0 +1,123 @@
+---
+/* src/components/HeaderNav.astro */
+
+type NavLink = { label: string; href: string };
+
+interface Props {
+  siteName?: string;
+  logoSrc?: string;
+  logoAlt?: string;
+  navLinks?: NavLink[];
+  bookUrl?: string;
+  bookLabel?: string;
+  sticky?: boolean;
+}
+
+const defaultLinks: NavLink[] = [
+  { label: "Home", href: "/" },
+  { label: "Tours", href: "/tours/" },
+  { label: "About", href: "/about/" },
+  { label: "FAQ", href: "/faq/" },
+  { label: "Contact", href: "/contact/" },
+];
+
+const {
+  siteName = "Mid MO Tours",
+  logoSrc,
+  logoAlt = "Mid MO Tours",
+  bookUrl = "",
+  bookLabel = "Book Now",
+  sticky = true,
+} = Astro.props as Props;
+
+const navLinks: NavLink[] = (Astro.props as Props).navLinks ?? defaultLinks;
+---
+
+<header class={`bg-white border-b ${sticky ? "sticky top-0 z-40" : ""}`}>
+  <div class="mx-auto max-w-7xl px-4 h-16 flex items-center justify-between">
+    <a href="/" class="flex items-center gap-2">
+      {
+        logoSrc ? (
+          <img src={logoSrc} alt={logoAlt} class="h-8 w-auto" loading="eager" decoding="async" />
+        ) : (
+          <span class="text-lg font-semibold tracking-tight">{siteName}</span>
+        )
+      }
+    </a>
+
+    <!-- Desktop nav -->
+    <nav class="hidden md:flex items-center gap-6" aria-label="Primary">
+      {
+        navLinks.map((item) => (
+          <a href={item.href} class="text-sm text-slate-700 hover:text-slate-950">
+            {item.label}
+          </a>
+        ))
+      }
+      {
+        bookUrl && (
+          <a
+            href={bookUrl}
+            class="rounded-lg bg-emerald-600 px-3 py-2 text-sm font-semibold text-white hover:bg-emerald-700">
+            {bookLabel}
+          </a>
+        )
+      }
+    </nav>
+
+    <!-- Mobile button -->
+    <button
+      id="mobile-menu-btn"
+      class="md:hidden p-2 rounded-lg text-slate-700 hover:bg-slate-100"
+      aria-controls="mobile-menu"
+      aria-expanded="false"
+      aria-label="Menu">
+      <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile panel -->
+  <nav id="mobile-menu" class="md:hidden border-t hidden" aria-label="Mobile">
+    <div class="mx-auto max-w-7xl px-4 py-3 flex flex-col gap-2">
+      {
+        navLinks.map((item) => (
+          <a href={item.href} class="rounded-lg px-3 py-2 text-base text-slate-800 hover:bg-slate-100">
+            {item.label}
+          </a>
+        ))
+      }
+      {
+        bookUrl && (
+          <a
+            href={bookUrl}
+            class="mt-2 inline-flex items-center justify-center rounded-lg bg-emerald-600 px-4 py-2 text-base font-semibold text-white hover:bg-emerald-700">
+            {bookLabel}
+          </a>
+        )
+      }
+    </div>
+  </nav>
+</header>
+
+<script type="module">
+  // Simple toggle: no focus trap, no IDs gymnastics
+  const btn = document.getElementById("mobile-menu-btn");
+  const panel = document.getElementById("mobile-menu");
+
+  if (btn && panel) {
+    btn.addEventListener("click", () => {
+      const nowHidden = panel.classList.toggle("hidden");
+      btn.setAttribute("aria-expanded", String(!nowHidden));
+    });
+
+    panel.addEventListener("click", (e) => {
+      const a = e.target.closest("a");
+      if (a) {
+        panel.classList.add("hidden");
+        btn.setAttribute("aria-expanded", "false");
+      }
+    });
+  }
+</script>
