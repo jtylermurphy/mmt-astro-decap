@@ -2,7 +2,12 @@
 import "../styles/global.css";
 import HeaderNav from "../components/HeaderNav.astro";
 import Footer from "../components/Footer.astro";
+import { getSiteSettings, type SiteSettings } from "../lib/siteSettings";
+import { deriveSettings } from "../lib/settingsUtils";
 
+const raw = await getSiteSettings();
+const settings = deriveSettings(raw); // adds telHref, mailHref, socials, etc.
+const telHref = settings.phone ? `tel:${settings.phone.replace(/[^\d+]/g, "")}` : "";
 const {
   title = "Mid MO Tours",
   description = "Guided tours and shuttles in Jefferson City",
@@ -17,14 +22,20 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body class={`min-h-screen flex flex-col bg-white text-slate-800 ${pageClass}`}>
     <!-- dvh = reliable on mobile -->
-    <HeaderNav />
+    <HeaderNav settings={settings} />
     <main id="main" class="grow w-full mx-auto max-w-7xl px-4 py-12">
       <!-- grow pushes footer down -->
       <slot />
     </main>
-    <Footer />
+    <Footer settings={settings} />
   </body>
 </html>

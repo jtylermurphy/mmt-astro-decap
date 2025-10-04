@@ -1,122 +1,136 @@
 ---
-// src/components/Footer.astro  (replace your existing file with this)
-import site from "../content/settings/global.md";
-
-type Social = { label: string; url: string };
-
+import type { SiteSettings } from "../lib/siteSettings";
+import Icon from "../components/Icon.astro";
+import { icons } from "../lib/icons";
 interface Props {
-  companyName?: string;
-  address?: { street?: string; city?: string; state?: string; zip?: string };
-  phone?: string;
-  email?: string;
-  hours?: string;
-  socials?: Social[];
+  settings: SiteSettings;
 }
 
-const fm: any = (site as any).frontmatter ?? {};
-const {
-  companyName = fm.company_name ?? "Mid MO Tours",
-  address = {
-    street: fm?.address?.street,
-    city: fm?.address?.city,
-    state: fm?.address?.state,
-    zip: fm?.address?.zip,
-  },
-  phone = fm.phone ?? "",
-  email = fm.email ?? "",
-  hours = fm.hours ?? "",
-  socials = [
-    { label: "Facebook", url: fm.facebook },
-    { label: "Instagram", url: fm.instagram },
-    { label: "TikTok", url: fm.tiktok },
-    { label: "YouTube", url: fm.youtube },
-    { label: "Threads", url: fm.threads },
-  ].filter((s) => s?.url),
-} = Astro.props as Props;
+const { settings } = Astro.props as Props;
+
+const companyName = settings.company_name ?? "Mid Mo Tours";
+const address = settings.address;
+const phone = settings.phone ?? "";
+const email = settings.email ?? "";
+const hours = settings.hours ?? "";
+const socials = [
+  { label: "Facebook", url: settings.facebook },
+  { label: "Instagram", url: settings.instagram },
+  { label: "TikTok", url: settings.tiktok },
+  { label: "YouTube", url: settings.youtube },
+  { label: "Threads", url: settings.threads },
+].filter((s) => s?.url);
 
 const year = new Date().getFullYear();
 const telHref = phone ? `tel:${phone.replace(/[^+\d]/g, "")}` : "";
 const mailHref = email ? `mailto:${email}` : "";
+// Build only the socials that have URLs
+const socialItems = [
+  settings.facebook && { label: "Facebook", url: settings.facebook, icon: icons.facebook },
+  settings.instagram && { label: "Instagram", url: settings.instagram, icon: icons.instagram },
+  settings.tiktok && { label: "TikTok", url: settings.tiktok, icon: icons.tiktok },
+  settings.youtube && { label: "YouTube", url: settings.youtube, icon: icons.youtube },
+  settings.threads && { label: "Threads", url: settings.threads, icon: icons.threads },
+].filter(Boolean) as { label: string; url: string; icon: string }[];
 
-function joinAddress(a?: Props["address"]) {
+function joinAddress(a?: { street?: string; city?: string; state?: string; zip?: string }) {
   if (!a) return "";
   return [a.street, [a.city, a.state].filter(Boolean).join(", "), a.zip].filter(Boolean).join(" · ");
 }
 ---
 
-<footer class="mt-16 border-t bg-slate-50">
+<footer class="mt-16 border-t bg-primary text-white bg-[url('/images/bg_footer.jpg')] bg-cover bg-center">
   <div class="mx-auto max-w-7xl px-4 py-10 grid gap-8 md:grid-cols-4">
     <!-- Brand / Contact -->
     <div>
       <h2 class="text-lg font-semibold">{companyName}</h2>
-      {joinAddress(address) && <p class="mt-2 text-sm text-slate-600">{joinAddress(address)}</p>}
-      <ul class="mt-3 space-y-1 text-sm">
-        {
-          phone && (
-            <li>
-              <a href={telHref} class="text-slate-700 hover:text-slate-950">
-                📞 {phone}
-              </a>
-            </li>
-          )
-        }
-        {
-          email && (
-            <li>
-              <a href={mailHref} class="text-slate-700 hover:text-slate-950">
-                ✉️ {email}
-              </a>
-            </li>
-          )
-        }
-        {hours && <li class="text-slate-600">🕒 {hours}</li>}
-      </ul>
+      {joinAddress(address) && <p class="mt-2 text-sm ">{joinAddress(address)}</p>}
+      {
+        (phone || email || hours) && (
+          <ul class="mt-3 space-y-1 text-sm" role="list">
+            {phone && (
+              <li>
+                <a href={telHref} class="inline-flex items-center gap-2  ">
+                  <Icon html={icons.phone} />
+                  <span class="sr-only">Phone:</span>
+                  {phone}
+                </a>
+              </li>
+            )}
+            {email && (
+              <li>
+                <a href={mailHref} class="inline-flex items-center gap-2 ">
+                  <Icon html={icons.envelope} />
+                  <span class="sr-only">Email:</span>
+                  {email}
+                </a>
+              </li>
+            )}
+            {hours && (
+              <li class="inline-flex items-center gap-2 ">
+                <Icon html={icons.clock} />
+                <span class="sr-only">Hours:</span>
+                {hours}
+              </li>
+            )}
+          </ul>
+        )
+      }
     </div>
 
     <!-- Explore -->
     <nav aria-label="Explore" class="text-sm">
-      <h3 class="font-semibold text-slate-900">Explore</h3>
+      <h3 class="font-bold text-accent">Tours</h3>
       <ul class="mt-3 space-y-2">
-        <li><a href="/tours/" class="text-slate-700 hover:text-slate-950">Tours</a></li>
-        <li><a href="/tours/standard" class="text-slate-700 hover:text-slate-950">Standard Tour</a></li>
-        <li><a href="/tours/custom" class="text-slate-700 hover:text-slate-950">Custom Tours</a></li>
-        <li><a href="/packages" class="text-slate-700 hover:text-slate-950">Packages</a></li>
+        <li><a href="/tours/standard" class="">JC Highlights Tour</a></li>
+        <li><a href="/tours/custom" class="">Custom Tours</a></li>
+        <li><a href="/packages" class="">Packages</a></li>
       </ul>
     </nav>
 
     <!-- Company -->
     <nav aria-label="Company" class="text-sm">
-      <h3 class="font-semibold text-slate-900">Company</h3>
+      <h3 class="font-bold text-accent">Company</h3>
       <ul class="mt-3 space-y-2">
-        <li><a href="/about" class="text-slate-700 hover:text-slate-950">About</a></li>
-        <li><a href="/faq" class="text-slate-700 hover:text-slate-950">FAQ</a></li>
-        <li><a href="/contact" class="text-slate-700 hover:text-slate-950">Contact</a></li>
+        <li><a href="/about" class="">About</a></li>
+        <li><a href="/faq" class="">FAQ</a></li>
+        <li><a href="/contact" class="">Contact</a></li>
       </ul>
     </nav>
 
     <!-- Legal -->
     <nav aria-label="Legal" class="text-sm">
-      <h3 class="font-semibold text-slate-900">Legal</h3>
+      <h3 class="font-bold text-accent">Legal</h3>
       <ul class="mt-3 space-y-2">
-        <li><a href="/privacy" class="text-slate-700 hover:text-slate-950">Privacy Policy</a></li>
-        <li><a href="/cancellation-policy" class="text-slate-700 hover:text-slate-950">Cancellation Policy</a></li>
-        <li><a href="/liability-waiver" class="text-slate-700 hover:text-slate-950">Liability Waiver</a></li>
+        <li><a href="/privacy" class="hover:text-accent">Privacy Policy</a></li>
+        <li><a href="/cancellation-policy" class="">Cancellation Policy</a></li>
+        <li><a href="/liability-waiver" class="">Liability Waiver</a></li>
       </ul>
     </nav>
   </div>
 
   <div class="border-t">
     <div class="mx-auto max-w-7xl px-4 py-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-      <p class="text-xs text-slate-500">© {year} {companyName}. All rights reserved.</p>
+      <p class="text-xs">© {year} {companyName}. All rights reserved.</p>
       <ul class="flex gap-4">
         {
-          socials.map((s) => (
-            <li>
-              <a href={s.url} class="text-xs text-slate-600 hover:text-slate-950" rel="noopener noreferrer">
-                {s.label}
-              </a>
-            </li>
-          ))
+          socialItems.length > 0 && (
+            <ul class="flex justify-center sm:justify-end items-center gap-3 text-sm" role="list">
+              {socialItems.map((s) => (
+                <li>
+                  <a
+                    href={s.url}
+                    class=" inline-flex items-center"
+                    aria-label={s.label}
+                    rel="noopener noreferrer"
+                    target="_blank">
+                    <Icon html={s.icon} />
+                    <span class="sr-only">{s.label}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )
         }
       </ul>
     </div>

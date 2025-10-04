@@ -6,16 +6,16 @@ address:
   city: ""
   state: ""
   zip: ""
-phone: ""
-email: ""
+phone: 573-826-9236
+email: info@midmotours.com
 hours: ""
-facebook: ""
-instagram: ""
-tiktok: ""
-youtube: ""
-threads: ""
+facebook: https://midmotours.com
+instagram: https://midmotours.com
+tiktok: https://midmotours.com
+youtube: https://midmotours.com
+threads: https://midmotours.com
 logo: ""
 seo:
-  site_title: "Mid MO Tours"
-  meta_description: "Guided tours and shuttles in Jefferson City"
+  site_title: Mid MO Tours
+  meta_description: Guided tours and shuttles in Jefferson City
 ---

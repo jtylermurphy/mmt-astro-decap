@@ -69,6 +69,17 @@ function joinAddress(a: any) {
             <label>Don’t fill this out: <input name="bot-field" /></label>
           </p>
 
+          <!-- Attribution & context (filled by JS) -->
+          <input type="hidden" name="page_url" />
+          <input type="hidden" name="page_title" />
+          <input type="hidden" name="referrer" />
+          <input type="hidden" name="utm_source" />
+          <input type="hidden" name="utm_medium" />
+          <input type="hidden" name="utm_campaign" />
+          <input type="hidden" name="utm_term" />
+          <input type="hidden" name="utm_content" />
+          <input type="hidden" name="timestamp" />
+
           <div class="grid gap-4 sm:grid-cols-2">
             <div class="sm:col-span-1">
               <label class="block text-sm font-medium text-slate-900" for="name">Full name</label>
@@ -77,6 +88,7 @@ function joinAddress(a: any) {
                 name="name"
                 type="text"
                 required
+                autocomplete="name"
                 class="mt-1 block w-full rounded-lg border px-3 py-2 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-600"
               />
             </div>
@@ -87,6 +99,8 @@ function joinAddress(a: any) {
                 name="email"
                 type="email"
                 required
+                autocomplete="email"
+                inputmode="email"
                 class="mt-1 block w-full rounded-lg border px-3 py-2 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-600"
               />
             </div>
@@ -96,6 +110,8 @@ function joinAddress(a: any) {
                 id="phone"
                 name="phone"
                 type="tel"
+                autocomplete="tel"
+                inputmode="tel"
                 class="mt-1 block w-full rounded-lg border px-3 py-2 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-600"
               />
             </div>
@@ -121,21 +137,74 @@ function joinAddress(a: any) {
                 class="mt-1 block w-full rounded-lg border px-3 py-2 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-600"
                 placeholder="Tell us your dates, group size, and interests."></textarea>
             </div>
+
+            <!-- Optional: Netlify reCAPTCHA (enable in dashboard, then uncomment) -->
+            {
+              /*
+            <div class="sm:col-span-2">
+              <div data-netlify-recaptcha="true"></div>
+            </div>
+            */
+            }
           </div>
 
           <div class="mt-5 flex items-center justify-between">
             <p class="text-sm text-slate-600">
-              By submitting, you agree to our <a class="text-emerald-700 hover:underline" href="/privacy"
-                >Privacy Policy</a
-              >.
+              By submitting, you agree to our
+              <a class="text-emerald-700 hover:underline" href="/privacy">Privacy Policy</a>.
             </p>
-            <button
-              type="submit"
-              class="inline-flex items-center justify-center rounded-xl bg-emerald-600 px-5 py-3 text-sm font-semibold text-white hover:bg-emerald-700">
-              Send Message
-            </button>
+            <button type="submit" class="btn btn-primary">Send Message</button>
           </div>
         </form>
+
+        <!-- Lightweight client script: preselect topic + fill hidden fields -->
+        <script is:inline>
+          (function () {
+            const form = document.forms["contact"];
+            if (!form) return;
+
+            // Helpers
+            const params = new URLSearchParams(location.search);
+            const get = (k) => (params.get(k) || "").trim();
+
+            // 1) Preselect Topic
+            // Priority: explicit ?topic=... > referring path hints
+            const topicEl = form.querySelector("#topic");
+            const qTopic = (get("topic") || "").toLowerCase();
+            const hints = ["booking", "custom", "package", "other"];
+            const ref = document.referrer || "";
+
+            const fromPackages = /\/packages?(\b|\/)/i.test(ref) || /(^|&)from=packages(&|$)/i.test(location.search);
+
+            const desired = hints.includes(qTopic) ? qTopic : fromPackages ? "package" : null;
+
+            if (topicEl && desired) {
+              topicEl.value = desired;
+            }
+
+            // 2) Optional: seed message when coming from a package
+            if (desired === "package") {
+              const msg = form.querySelector("#message");
+              if (msg && !msg.value) {
+                msg.value = "Interested in a package. Dates, group size, and any special stops:";
+              }
+            }
+
+            // 3) Attribution / context
+            const setVal = (name, val) => {
+              const el = form.querySelector(`input[name="${name}"]`);
+              if (el) el.value = val || "";
+            };
+
+            setVal("page_url", location.href);
+            setVal("page_title", document.title);
+            setVal("referrer", document.referrer);
+
+            ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"].forEach((k) => setVal(k, get(k)));
+
+            setVal("timestamp", new Date().toISOString());
+          })();
+        </script>
       </div>
     </div>
   </section>

@@ -4,12 +4,12 @@ import Base from "../../layouts/Base.astro";
 import TourDetail from "../../components/TourDetail.astro";
 
 const copy = `
-  <p>Explore Jefferson City’s must-see landmarks with engaging narration from a local guide. From the Capitol and Governor’s Mansion to Riverfront views and hidden gems, this tour packs a lot into 90 minutes.</p>
+  <p>Explore Jefferson City's must-see landmarks with engaging narration from a local guide. From the Capitol and Governor's Mansion to Riverfront views and hidden gems, this tour packs a lot into 105 minutes.</p>
   <p>Perfect for first-time visitors and locals entertaining guests.</p>
-  <h2>Itinerary highlights</h2>
+  <h2 class="text-xl mt-12">Itinerary highlights</h2>
   <ul>
     <li>Missouri State Capitol &amp; grounds</li>
-    <li>Governor’s Mansion (exterior)</li>
+    <li>Governor's Mansion (exterior)</li>
     <li>Historic downtown &amp; shops</li>
     <li>Missouri River overlook</li>
   </ul>
@@ -17,16 +17,16 @@ const copy = `
 ---
 
 <Base
-  title="Standard City Highlights | Mid MO Tours"
+  title="Jefferson City Highlights | Mid Mo Tours"
   description="Hit the must-see spots in 90 minutes with lively narration from a local guide.">
   <TourDetail
-    title="Standard City Highlights"
-    imageSrc="/uploads/tour-standard-hero.jpg"
-    duration="90 minutes"
-    scheduleText="Daily 9am & 1pm"
+    title="Jefferson City Highlights"
+    imageSrc="/uploads/tour-standard-hero.png"
+    duration="105 minutes"
+    scheduleText="Daily 11:30am & 1:30pm"
     priceNumber={39}
     features={["Air-conditioned 12–15 passenger van", "Live narration & local stories", "Photo stops at key landmarks"]}
-    bookingUrl="/tours/standard#book"
+    bookingUrl="https://bookeo.com/midmotours?type=41567T3LWN41998B34C336"
     bodyHtml={copy}
   />
 </Base>

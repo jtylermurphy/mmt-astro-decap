@@ -9,7 +9,11 @@ const tours = defineCollection({
     duration: z.string(),
     image: z.string(),
     booking_url: z.string().url(),
-    // Markdown body is available separately; no field needed for it here.
+    short_description: z.string().optional(), // keep optional to avoid breaking existing content
+    active: z.boolean().default(true),
+    order: z.number().int().default(0),
+    featured: z.boolean().default(false),
+    tour_type: z.enum(["standard", "package"]).default("standard"),
   }),
 });
 
@@ -33,6 +37,7 @@ const blog = defineCollection({
 const settings = defineCollection({
   type: "content",
   schema: z.object({
+    title: z.string().optional(),
     company_name: z.string().optional(),
     address: z
       .object({

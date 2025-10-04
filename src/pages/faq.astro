@@ -2,9 +2,9 @@
 // src/pages/faq.astro
 import Base from "../layouts/Base.astro";
 import FAQAccordion from "../components/FAQAccordion.astro";
-import faq from "../content/pages/faq.md";
+import { frontmatter as faqFm } from "../content/pages/faq.md";
 
-const items = ((faq as any).frontmatter?.items ?? []) as { q: string; a: string }[];
+const items = (faqFm?.items ?? []) as { q: string; a: string }[];
 ---
 
 <Base

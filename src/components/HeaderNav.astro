@@ -1,9 +1,13 @@
 ---
 /* src/components/HeaderNav.astro */
+import type { SiteSettings } from "../lib/siteSettings";
+import Icon from "../components/Icon.astro";
+import { icons } from "../lib/icons";
 
 type NavLink = { label: string; href: string };
 
 interface Props {
+  settings?: SiteSettings;
   siteName?: string;
   logoSrc?: string;
   logoAlt?: string;
@@ -11,6 +15,8 @@ interface Props {
   bookUrl?: string;
   bookLabel?: string;
   sticky?: boolean;
+  phone?: string;
+  telHref?: string;
 }
 
 const defaultLinks: NavLink[] = [
@@ -22,25 +28,89 @@ const defaultLinks: NavLink[] = [
 ];
 
 const {
-  siteName = "Mid MO Tours",
+  settings = {} as SiteSettings,
+
+  siteName = settings.company_name ?? "Mid MO Tours",
   logoSrc,
   logoAlt = "Mid MO Tours",
   bookUrl = "",
-  bookLabel = "Book Now",
+  bookLabel = "See Tours",
   sticky = true,
 } = Astro.props as Props;
 
 const navLinks: NavLink[] = (Astro.props as Props).navLinks ?? defaultLinks;
+
+const phone = settings.phone ?? "";
+const email = settings.email ?? "";
+
+const telHref = phone ? `tel:${phone.replace(/[^\d+]/g, "")}` : "";
+const mailHref = email ? `mailto:${email}` : "";
+
+// Build only the socials that have URLs
+const socialItems = [
+  settings.facebook && { label: "Facebook", url: settings.facebook, icon: icons.facebook },
+  settings.instagram && { label: "Instagram", url: settings.instagram, icon: icons.instagram },
+  settings.tiktok && { label: "TikTok", url: settings.tiktok, icon: icons.tiktok },
+  settings.youtube && { label: "YouTube", url: settings.youtube, icon: icons.youtube },
+  settings.threads && { label: "Threads", url: settings.threads, icon: icons.threads },
+].filter(Boolean) as { label: string; url: string; icon: string }[];
 ---
 
 <header class={`bg-white border-b ${sticky ? "sticky top-0 z-40" : ""}`}>
+  <div class="bg-secondary text-white">
+    <div
+      class="mx-auto max-w-7xl px-4 py-2 sm:h-10 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-0 sm:justify-between">
+      <!-- Left: phone/email -->
+      <div class="text-sm flex flex-col sm:flex-row items-center gap-2">
+        {
+          phone && (
+            <a class="inline-flex items-center gap-2 header__phone" href={telHref} aria-label={`Call ${phone}`}>
+              <Icon html={icons.phone} />
+              {phone}
+            </a>
+          )
+        }
+        {phone && email && <span class="hidden sm:inline">•</span>}
+        {
+          email && (
+            <a href={mailHref} class="inline-flex items-center gap-2" aria-label={`Email ${email}`}>
+              <Icon html={icons.envelope} />
+              {email}
+            </a>
+          )
+        }
+      </div>
+
+      <!-- Right: socials -->
+      {
+        socialItems.length > 0 && (
+          <ul class="flex justify-center sm:justify-end items-center gap-3 text-sm" role="list">
+            {socialItems.map((s) => (
+              <li>
+                <a
+                  href={s.url}
+                  class="text-white inline-flex items-center"
+                  aria-label={s.label}
+                  rel="noopener noreferrer"
+                  target="_blank">
+                  <Icon html={s.icon} />
+                  <span class="sr-only">{s.label}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+  </div>
+
   <div class="mx-auto max-w-7xl px-4 h-16 flex items-center justify-between">
     <a href="/" class="flex items-center gap-2">
       {
         logoSrc ? (
           <img src={logoSrc} alt={logoAlt} class="h-8 w-auto" loading="eager" decoding="async" />
         ) : (
-          <span class="text-lg font-semibold tracking-tight">{siteName}</span>
+          <span class="text-lg font-serif font-bold tracking-tight">{siteName}</span>
         )
       }
     </a>

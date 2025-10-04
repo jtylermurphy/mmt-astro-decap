@@ -71,9 +71,7 @@ const ctaText = ctaLabel ?? (bookingUrl ? "Book Now" : formUrl ? "Request Info" 
     {priceText && <div class="mt-auto text-sm font-medium text-slate-900">{priceText}</div>}
 
     <div class="pt-1">
-      <a
-        href={ctaHref}
-        class="inline-flex items-center justify-center rounded-xl bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700">
+      <a href={ctaHref} class="btn btn-primary">
         {ctaText}
       </a>
     </div>
