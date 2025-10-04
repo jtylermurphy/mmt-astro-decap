@@ -7,15 +7,16 @@ import Testimonials from "../components/Testimonials.astro";
 
 const featured = [
   {
-    title: "Standard City Highlights",
-    teaser: "Hit the 18 must-see spots with lively narration from a local.",
-    duration: "90 minutes",
-    scheduleText: "Daily 9am & 1pm",
+    title: "Jefferson City Highlights",
+    teaser: "Hit the 18 must-see spots with lively narration.",
+    duration: "105 minutes",
+    scheduleText: "Daily 11:30am & 1:30pm",
     priceNumber: 39,
     thumbnailSrc: "/uploads/tour-standard.jpg",
     href: "/tours/standard",
-    bookingUrl: "/tours/standard#book",
+    bookingUrl: "/tours/standard",
     kind: "standard" as const,
+    ctaLabel: "View Details",
   },
   {
     title: "Custom Tours",
@@ -23,9 +24,9 @@ const featured = [
     duration: "You choose",
     thumbnailSrc: "/uploads/tour-custom.jpg",
     href: "/tours/custom",
-    formUrl: "/contact#custom-tour",
+    formUrl: "/tours/custom",
     kind: "custom" as const,
-    ctaLabel: "Request Info",
+    ctaLabel: "View Details",
   },
   {
     title: "Packages",
@@ -41,21 +42,25 @@ const featured = [
 
 const quotes = [
   {
-    quote: "Fantastic way to see Jefferson City—learned so much history!",
-    authorName: "Amanda R.",
-    authorMeta: "Highlights Tour · July 2025",
+    quote:
+      "Perfect tour service for our corporate event. Professional, punctual, and accommodating. Mid MO Custom Tours exceeded our expectations.",
+    authorName: "Steve",
+    authorMeta: "Jefferson City, MO",
     rating: 5,
   },
   {
-    quote: "On time, friendly, and the stories made it memorable.",
-    authorName: "Marcus T.",
-    authorMeta: "Special Interest",
+    quote:
+      "Matthew provided an excellent tour of Jefferson City. His knowledge of local history and friendly personality made our visit memorable. Highly recommended!",
+    authorName: "Andy",
+    authorMeta: "Florence, AZ",
     rating: 5,
   },
   {
-    quote: "Great for our family—kids loved the Capitol stop.",
-    authorName: "Brianna L.",
-    rating: 4,
+    quote:
+      "The custom tour was exactly what we wanted. Matthew tailored the experience to our interests and timing. Great value and personal service.",
+    authorName: "Amy",
+    authorMeta: "Monument, CO",
+    rating: 5,
   },
 ];
 ---
@@ -64,11 +69,11 @@ const quotes = [
   title="Mid MO Tours | Jefferson City Tours & Shuttles"
   description="Guided tours of Jefferson City plus custom itineraries and packages.">
   <Hero
-    heading="See Jefferson City the right way"
-    subheading="Guided tours and shuttle services from locals who know every story."
-    imageSrc="/uploads/home-hero.jpg"
-    primaryCta={{ label: "Book Now", href: "/tours/standard#book" }}
-    secondaryCta={{ label: "See Tours", href: "/tours/" }}
+    heading="Discover Jefferson City like never before"
+    subheading="Join our guided tours and experience history, culture, and charm of Mid-Missouri."
+    imageSrc="/uploads/tour-standard-hero.png"
+    primaryCta={{ label: "Highlights Tour", href: "/tours/standard" }}
+    secondaryCta={{ label: "Plan a Custom Tour", href: "/tours/custom/" }}
   />
 
   <FeaturedTours items={featured} />

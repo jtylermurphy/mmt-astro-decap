@@ -1,0 +1,15 @@
+---
+// src/components/Icon.astro
+interface Props {
+  html: string;
+  label?: string;
+  class?: string;
+}
+const { html, label = "", class: cls = "" } = Astro.props as Props;
+---
+
+<span
+  class={`inline-block align-[-.125em] ${cls}`}
+  {...label ? { role: "img", "aria-label": label } : { "aria-hidden": "true" }}
+  set:html={html}
+/>

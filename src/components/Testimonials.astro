@@ -15,7 +15,7 @@ interface Props {
   starColor?: string; // brand gold hex
 }
 
-const { title = "What guests say", items = [], starColor = "#ca902b" } = Astro.props as Props;
+const { title = "What our guests say", items = [], starColor = "#ca902b" } = Astro.props as Props;
 
 const clamp = (n: number, min = 0, max = 5) => Math.max(min, Math.min(max, Math.floor(n)));
 const stars = [1, 2, 3, 4, 5];

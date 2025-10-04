@@ -37,6 +37,14 @@ collections:
     format: "frontmatter"
     fields:
       - { name: "title", label: "Tour Title", widget: "string" }
+      - name: "tour_type"
+        label: "Tour Type"
+        widget: "select"
+        options:
+          - { label: "Standard", value: "standard" }
+          - { label: "Package", value: "package" }
+        default: "standard"
+        hint: "Choose whether this is a regular tour or a package tour"
       - { name: "price", label: "Price", widget: "number", hint: "Enter a number only, without $ or text" }
       - { name: "duration", label: "Duration", widget: "string", hint: "Example: '2 hours' or 'Half day'" }
       - { name: "image", label: "Feature Image", widget: "image", hint: "Upload a photo that best represents the tour" }
@@ -46,6 +54,39 @@ collections:
         hint: "Paste the full link to book (must start with https://)"
 
       - { name: "body", label: "Description", widget: "markdown" }
+      - {
+          name: "short_description",
+          label: "Short Description",
+          widget: "text",
+          hint: "1–2 sentences for cards/teasers",
+        }
+      - {
+          name: "active",
+          label: "Active",
+          widget: "boolean",
+          default: true,
+          hint: "Uncheck to hide this tour without deleting it",
+        }
+      - {
+          name: "order",
+          label: "Order",
+          widget: "number",
+          value_type: "int",
+          default: 0,
+          hint: "Manual sort (lower = earlier)",
+        }
+      - {
+          name: "featured",
+          label: "Featured",
+          widget: "boolean",
+          default: false,
+          hint: "Use for homepage or highlights",
+        }
+    sortable_fields: ["order", "title", "active", "featured"]
+    view_filters:
+      - { label: "Active only", field: "active", pattern: true }
+      - { label: "Featured only", field: "featured", pattern: true }
+    summary: "{{fields.title}} — ${{fields.price}}"
 
   - name: "blog"
     label: "Blog"
