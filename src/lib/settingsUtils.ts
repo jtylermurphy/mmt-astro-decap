@@ -16,6 +16,7 @@ export function deriveSettings(s: SiteSettings) {
       tiktok: s.tiktok,
       youtube: s.youtube,
       threads: s.threads,
+      xtwitter: s.xtwitter,
     },
   };
 }

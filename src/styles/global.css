@@ -210,6 +210,11 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+a:hover {
+  @apply text-accent;
+}
+
 ::selection {
   background: color-mix(in srgb, var(--accent-seed) 20%, transparent);
   color: var(--foreground);
@@ -373,7 +378,7 @@ body {
 
 /* Hero (image or solid) */
 .hero {
-  @apply relative border-b bg-white;
+  @apply relative border-b;
   isolation: isolate;
 }
 .hero-image {

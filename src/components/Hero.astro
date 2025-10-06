@@ -1,59 +1,48 @@
 ---
-/* src/components/Hero.astro */
-
-type CTA = { label: string; href: string };
-
-interface Props {
-  heading: string;
-  subheading?: string;
-  imageSrc?: string;
-  imageAlt?: string;
-  primaryCta?: CTA;
-  secondaryCta?: CTA;
-}
-
-const { heading, subheading, imageSrc, imageAlt = heading, primaryCta, secondaryCta } = Astro.props as Props;
+// src/components/Hero.astro
+// Zero-props Hero with provided copy
 ---
 
-<section class="hero bg-primary bg-[url('/images/bg_hero.jpg')] bg-cover bg-center">
-  <div class="mx-auto max-w-7xl px-4 py-12 md:py-16 grid items-center gap-8 md:grid-cols-2">
+<section class="relative isolate bg-gray-100">
+  <div
+    class="absolute inset-0 bg-[url('/images/bg_hero.jpg')] bg-cover bg-center mix-blend-multiply opacity-60 pointer-events-none"
+    aria-hidden="true">
+  </div>
+  <div class="relative mx-auto max-w-7xl px-4 py-12 md:py-16 grid items-center gap-8 md:grid-cols-2">
     <!-- Copy -->
     <div class="space-y-5">
-      <h1 class="text-4xl/tight font-semibold tracking-tight sm:text-5xl">
-        {heading}
-      </h1>
-      {subheading && <p class="text-lg text-slate-600">{subheading}</p>}
-      {
-        (primaryCta || secondaryCta) && (
-          <div class="flex flex-wrap gap-3 pt-2">
-            {primaryCta && (
-              <a href={primaryCta.href} class="btn btn-primary">
-                {primaryCta.label}
-              </a>
-            )}
-            {secondaryCta && (
-              <a href={secondaryCta.href} class="btn btn-outline">
-                {secondaryCta.label}
-              </a>
-            )}
-          </div>
-        )
-      }
+      <h1 class="text-4xl/tight font-semibold tracking-tight sm:text-5xl">Discover Mid-Missouri Like Never Before</h1>
+
+      <p class="text-slate-600">
+        Experience the history, culture, and charm of Mid-Missouri — from the iconic Capitol and Governor’s Mansion to
+        small-town gems and scenic backroads. Mid-MO Tours makes it easy to see more, stress less, and truly connect
+        with the places that make this region special.
+      </p>
+
+      <p class="text-slate-600">
+        Whether you’re visiting for the first time or rediscovering your own backyard, you’ll enjoy comfortable
+        transportation, lively narration, and plenty of time to take it all in.
+      </p>
+
+      <p class="text-slate-600">
+        Come see why we’re proud to call Mid-Missouri home — and why you’ll love exploring it, too.
+      </p>
+
+      <div class="flex flex-wrap gap-3 pt-2">
+        <a href="/tours/standard" class="btn btn-primary"> Highlights Tour </a>
+        <a href="/tours/custom/" class="btn btn-outline bg-white"> Plan a Custom Tour </a>
+      </div>
     </div>
 
-    <!-- Image (optional) -->
-    {
-      imageSrc && (
-        <div class="md:order-last">
-          <img
-            src={imageSrc}
-            alt={imageAlt}
-            class="w-full rounded-2xl shadow-sm object-cover"
-            loading="eager"
-            decoding="async"
-          />
-        </div>
-      )
-    }
+    <!-- Image -->
+    <div class="md:order-last">
+      <img
+        src="/uploads/tour-standard-hero.png"
+        alt="Discover Mid-Missouri Like Never Before"
+        class="w-full rounded-2xl shadow-sm object-cover"
+        loading="eager"
+        decoding="async"
+      />
+    </div>
   </div>
 </section>

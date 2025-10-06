@@ -132,6 +132,7 @@ collections:
           - { name: "tiktok", label: "TikTok URL", widget: "string", required: false }
           - { name: "youtube", label: "YouTube URL", widget: "string", required: false }
           - { name: "threads", label: "Threads URL", widget: "string", required: false }
+          - { name: "xtwitter", label: "X (Twitter) URL", widget: "string", required: false }
           - { name: "logo", label: "Logo (SVG/PNG)", widget: "image", required: false }
           - name: "seo"
             label: "Default SEO"

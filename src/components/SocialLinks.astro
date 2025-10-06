@@ -1,0 +1,42 @@
+---
+// src/components/SocialLinks.astro
+import Icon from "../components/Icon.astro";
+import { icons } from "../lib/icons";
+
+import site from "../content/settings/global.md";
+
+const fm: any = (site as any).frontmatter ?? {};
+const urls = {
+  facebook: fm.facebook_url?.trim(),
+  instagram: fm.instagram_url?.trim(),
+  tiktok: fm.tiktok_url?.trim(),
+  youtube: fm.youtube_url?.trim(),
+  threads: fm.threads_url?.trim(),
+  xtwitter: (fm.x_url ?? fm.twitter_url)?.trim(),
+};
+
+const items = [
+  { label: "Facebook", html: icons.facebook, href: urls.facebook },
+  { label: "Instagram", html: icons.instagram, href: urls.instagram },
+  { label: "TikTok", html: icons.tiktok, href: urls.tiktok },
+  { label: "YouTube", html: icons.youtube, href: urls.youtube },
+  { label: "Threads", html: icons.threads, href: urls.threads },
+  { label: "X (Twitter)", html: icons.xtwitter, href: urls.xtwitter },
+].filter((i) => i.href);
+
+const variant = Astro.props.variant ?? "default";
+---
+
+{
+  items.length > 0 && (
+    <ul class={`social social--${variant} flex items-center gap-3`}>
+      {items.map((item) => (
+        <li>
+          <a href={item.href} target="_blank" rel="noopener noreferrer" aria-label={item.label}>
+            <Icon html={item.html} class="h-5 w-5" />
+          </a>
+        </li>
+      ))}
+    </ul>
+  )
+}

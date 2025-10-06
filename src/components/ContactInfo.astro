@@ -1,0 +1,75 @@
+---
+import Icon from "../components/Icon.astro";
+import { icons } from "../lib/icons";
+
+interface Address {
+  street?: string;
+  city?: string;
+  state?: string;
+  zip?: string;
+}
+interface Settings {
+  company_name?: string;
+  address?: Address;
+  phone?: string;
+  email?: string;
+  hours?: string;
+}
+
+interface Props {
+  settings: Settings;
+}
+
+const { settings } = Astro.props as Props;
+
+const companyName = settings.company_name ?? "Mid MO Tours";
+const address = settings.address;
+const phone = (settings.phone ?? "").trim();
+const email = (settings.email ?? "").trim();
+const hours = (settings.hours ?? "").trim();
+
+const telHref = phone ? `tel:${phone.replace(/[^+\d]/g, "")}` : "";
+const mailHref = email ? `mailto:${email}` : "";
+
+function joinAddress(a?: Address) {
+  if (!a) return "";
+  return [a.street, [a.city, a.state].filter(Boolean).join(", "), a.zip].filter(Boolean).join(" · ");
+}
+---
+
+<div class="rounded-2xl border p-6 shadow-sm bg-slate-50">
+  <h2 class="text-lg font-semibold">{companyName}</h2>
+  {joinAddress(address) && <p class="mt-2 text-sm text-slate-600">{joinAddress(address)}</p>}
+
+  {
+    (phone || email || hours) && (
+      <ul class="mt-3 space-y-1 text-sm" role="list">
+        {phone && (
+          <li>
+            <a href={telHref} class="inline-flex items-center gap-2 hover:text-accent">
+              <Icon html={icons.phone} />
+              <span class="sr-only">Phone:</span>
+              {phone}
+            </a>
+          </li>
+        )}
+        {email && (
+          <li>
+            <a href={mailHref} class="inline-flex items-center gap-2 hover:text-accent">
+              <Icon html={icons.envelope} />
+              <span class="sr-only">Email:</span>
+              {email}
+            </a>
+          </li>
+        )}
+        {hours && (
+          <li class="inline-flex items-center gap-2">
+            <Icon html={icons.clock} />
+            <span class="sr-only">Hours:</span>
+            {hours}
+          </li>
+        )}
+      </ul>
+    )
+  }
+</div>
