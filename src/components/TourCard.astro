@@ -1,5 +1,7 @@
 ---
 // src/components/TourCard.astro
+import Icon from "../components/Icon.astro";
+import { icons } from "../lib/icons";
 
 type TourKind = "standard" | "custom" | "package" | string;
 
@@ -29,18 +31,31 @@ const ctaHref = bookingUrl ?? formUrl ?? href ?? "#";
 const ctaText = ctaLabel ?? (bookingUrl ? "Book Now" : formUrl ? "Request Info" : "See Details");
 ---
 
-<article class="flex flex-col overflow-hidden rounded-2xl border bg-white shadow-sm">
+<article
+  class="flex flex-col overflow-hidden text-white p-4 rounded-lg bg-white border border-gray-200
+         shadow-lg transition-transform transition-shadow duration-300 ease-out transform-gpu
+         motion-safe:hover:scale-[1.02] motion-safe:hover:shadow-2xl motion-safe:focus-visible:scale-[1.02]
+         will-change-transform">
   {
     thumbnailSrc && (
       <a href={href ?? ctaHref} class="block">
-        <img src={thumbnailSrc} alt="" class="h-48 w-full object-cover" loading="lazy" decoding="async" />
+        <img src={thumbnailSrc} alt="" class="h-48 w-full object-cover rounded-sm" loading="lazy" decoding="async" />
       </a>
     )
   }
 
   <div class="flex flex-1 flex-col gap-4 p-5">
     <header class="flex items-start justify-between gap-3">
-      <h3 class="text-lg font-semibold tracking-tight">
+      <span
+        class="relative inline-block z-0
+         px-5 py-1 font-serif text-white
+         before:content-[''] before:absolute before:inset-0 before:bg-primary before:shadow-[0_0_0_2px_#fff] before:border-0
+         before:rotate-[-0.75deg] before:z-[-1]
+         after:content-[''] after:absolute after:inset-0 after:bg-accent
+         after:translate-x-[6px] after:translate-y-[6px] after:rotate-[-0.75deg] after:z-[-2]">
+        <span class="relative z-10 text-2xl">{title}</span>
+      </span>
+      <!-- <h3 class="text-2xl font-semibold tracking-tight">
         {
           href ? (
             <a href={href} class="hover:underline">
@@ -50,7 +65,7 @@ const ctaText = ctaLabel ?? (bookingUrl ? "Book Now" : formUrl ? "Request Info" 
             title
           )
         }
-      </h3>
+      </h3> -->
       <!-- {
         kind && (
           <span class="shrink-0 rounded-full border px-2 py-0.5 text-xs font-medium text-slate-700">
@@ -60,14 +75,16 @@ const ctaText = ctaLabel ?? (bookingUrl ? "Book Now" : formUrl ? "Request Info" 
       } -->
     </header>
 
-    {teaser && <p class="text-slate-600 text-sm">{teaser}</p>}
+    {teaser && <p class="text-slate-600 mt-3">{teaser}</p>}
 
-    <dl class="mt-auto grid grid-cols-1 gap-2 text-sm text-slate-700 sm:grid-cols-2">
+    <dl class="mt-auto grid grid-cols-1 gap-2 text-sm text-slate-700">
       {
         duration && (
           <div>
             <dt class="sr-only">Duration</dt>
-            <dd>⏱ {duration}</dd>
+            <dd class="align-items-center flex gap-1">
+              <Icon html={icons.clock} /> {duration}
+            </dd>
           </div>
         )
       }
@@ -75,7 +92,9 @@ const ctaText = ctaLabel ?? (bookingUrl ? "Book Now" : formUrl ? "Request Info" 
         scheduleText && (
           <div>
             <dt class="sr-only">Schedule</dt>
-            <dd>🗓 {scheduleText}</dd>
+            <dd class="align-items-center flex gap-1">
+              <Icon html={icons.calendar} /> {scheduleText}
+            </dd>
           </div>
         )
       }
@@ -90,7 +109,7 @@ const ctaText = ctaLabel ?? (bookingUrl ? "Book Now" : formUrl ? "Request Info" 
     </dl>
 
     <div class="pt-1">
-      <a href={ctaHref} class="btn btn-primary">
+      <a href={ctaHref} class="btn btn-secondary">
         {ctaText}
       </a>
     </div>

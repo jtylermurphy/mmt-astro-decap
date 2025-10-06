@@ -7,12 +7,12 @@ import Testimonials from "../components/Testimonials.astro";
 
 const featured = [
   {
-    title: "Jefferson City Highlights",
-    teaser: "Hit the 18 must-see spots with lively narration.",
+    title: "Highlights Tour",
+    teaser: "Hit the 18 must-see spots in Mid-Missouri with lively narration.",
     duration: "105 minutes",
     scheduleText: "Daily 11:30am & 1:30pm",
     priceNumber: 39,
-    thumbnailSrc: "/uploads/tour-standard.jpg",
+    thumbnailSrc: "/images/highlights.jpg",
     href: "/tours/standard",
     bookingUrl: "/tours/standard",
     kind: "standard" as const,
@@ -22,7 +22,7 @@ const featured = [
     title: "Custom Tours",
     teaser: "Build your own itinerary—history, art, food, or faith landmarks.",
     duration: "You choose",
-    thumbnailSrc: "/uploads/tour-custom.jpg",
+    thumbnailSrc: "/images/custom-tours.jpg",
     href: "/tours/custom",
     formUrl: "/tours/custom",
     kind: "custom" as const,
@@ -32,9 +32,9 @@ const featured = [
     title: "Packages",
     teaser: "Bundle tours with local experiences for groups and events.",
     duration: "Half-day / Full-day",
-    thumbnailSrc: "/uploads/tour-packages.jpg",
+    thumbnailSrc: "/images/packages.jpg",
     href: "/packages",
-    formUrl: "/contact",
+    formUrl: "/packages",
     kind: "package" as const,
     ctaLabel: "See Packages",
   },
@@ -68,13 +68,7 @@ const quotes = [
 <Base
   title="Mid MO Tours | Jefferson City Tours & Shuttles"
   description="Guided tours of Jefferson City plus custom itineraries and packages.">
-  <Hero
-    heading="Discover Jefferson City like never before"
-    subheading="Join our guided tours and experience history, culture, and charm of Mid-Missouri."
-    imageSrc="/uploads/tour-standard-hero.png"
-    primaryCta={{ label: "Highlights Tour", href: "/tours/standard" }}
-    secondaryCta={{ label: "Plan a Custom Tour", href: "/tours/custom/" }}
-  />
+  <Hero />
 
   <FeaturedTours items={featured} />
 

@@ -25,10 +25,10 @@ interface Props {
 const { title = "Featured Tours", items = [] } = Astro.props as Props;
 ---
 
-<section class="bg-white">
+<section class="">
   <div class="mx-auto max-w-7xl px-4 py-12">
-    <div class="mb-6 flex items-end justify-between gap-4">
-      <h2 class="text-2xl font-semibold tracking-tight">{title}</h2>
+    <div class="mb-6 flex items-end justify-between gap-4 justify-self-center">
+      <h2 class="text-5xl font-semibold tracking-tight">{title}</h2>
     </div>
 
     <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

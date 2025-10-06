@@ -55,6 +55,7 @@ const settings = defineCollection({
     tiktok: z.string().optional(),
     youtube: z.string().optional(),
     threads: z.string().optional(),
+    xtwitter: z.string().optional(),
     logo: z.string().optional(),
     seo: z
       .object({

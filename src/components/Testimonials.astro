@@ -21,7 +21,7 @@ const clamp = (n: number, min = 0, max = 5) => Math.max(min, Math.min(max, Math.
 const stars = [1, 2, 3, 4, 5];
 ---
 
-<section class="bg-white">
+<section class="">
   <div class="mx-auto max-w-7xl px-4 py-12">
     {title && <h2 class="text-2xl font-semibold tracking-tight mb-6">{title}</h2>}
 
@@ -30,7 +30,7 @@ const stars = [1, 2, 3, 4, 5];
         items.map((t) => {
           const rating = clamp(t.rating ?? 0);
           return (
-            <figure class="rounded-2xl border p-6 shadow-sm bg-white">
+            <figure class="rounded-2xl border p-6 shadow-lg border-gray-200 bg-white">
               <blockquote class="text-slate-800">
                 <p>“{t.quote}”</p>
               </blockquote>

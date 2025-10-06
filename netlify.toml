@@ -44,3 +44,6 @@
 #   from = "/blog"
 #   to   = "/"
 #   status = 301
+
+[functions]
+  directory = "netlify/functions"

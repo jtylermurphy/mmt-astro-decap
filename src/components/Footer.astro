@@ -2,6 +2,9 @@
 import type { SiteSettings } from "../lib/siteSettings";
 import Icon from "../components/Icon.astro";
 import { icons } from "../lib/icons";
+import NewsletterForm from "../components/NewsletterForm.astro";
+import SocialLinks from "./SocialLinks.astro";
+
 interface Props {
   settings: SiteSettings;
 }
@@ -13,6 +16,8 @@ const address = settings.address;
 const phone = settings.phone ?? "";
 const email = settings.email ?? "";
 const hours = settings.hours ?? "";
+const logoSrc = (settings.logo as string) || "";
+
 const socials = [
   { label: "Facebook", url: settings.facebook },
   { label: "Instagram", url: settings.instagram },
@@ -31,6 +36,7 @@ const socialItems = [
   settings.tiktok && { label: "TikTok", url: settings.tiktok, icon: icons.tiktok },
   settings.youtube && { label: "YouTube", url: settings.youtube, icon: icons.youtube },
   settings.threads && { label: "Threads", url: settings.threads, icon: icons.threads },
+  settings.xtwitter && { label: "X (Twitter)", url: settings.xtwitter, icon: icons.xtwitter },
 ].filter(Boolean) as { label: string; url: string; icon: string }[];
 
 function joinAddress(a?: { street?: string; city?: string; state?: string; zip?: string }) {
@@ -40,99 +46,124 @@ function joinAddress(a?: { street?: string; city?: string; state?: string; zip?:
 ---
 
 <footer class="mt-16 border-t bg-primary text-white bg-[url('/images/bg_footer.jpg')] bg-cover bg-center">
-  <div class="mx-auto max-w-7xl px-4 py-10 grid gap-8 md:grid-cols-4">
-    <!-- Brand / Contact -->
-    <div>
-      <h2 class="text-lg font-semibold">{companyName}</h2>
-      {joinAddress(address) && <p class="mt-2 text-sm ">{joinAddress(address)}</p>}
+  <div class="mx-auto max-w-7xl px-4 py-10 grid gap-8 md:grid-cols-3">
+    <!-- Col 1: Brand + Contact (inner 2-col) -->
+    <div class="grid gap-6 items-start md:grid-cols-2">
+      <!-- Logo -->
       {
-        (phone || email || hours) && (
-          <ul class="mt-3 space-y-1 text-sm" role="list">
-            {phone && (
-              <li>
-                <a href={telHref} class="inline-flex items-center gap-2  ">
-                  <Icon html={icons.phone} />
-                  <span class="sr-only">Phone:</span>
-                  {phone}
-                </a>
-              </li>
-            )}
-            {email && (
-              <li>
-                <a href={mailHref} class="inline-flex items-center gap-2 ">
-                  <Icon html={icons.envelope} />
-                  <span class="sr-only">Email:</span>
-                  {email}
-                </a>
-              </li>
-            )}
-            {hours && (
-              <li class="inline-flex items-center gap-2 ">
-                <Icon html={icons.clock} />
-                <span class="sr-only">Hours:</span>
-                {hours}
-              </li>
-            )}
-          </ul>
+        logoSrc && (
+          <a href="/" class="inline-block justify-self-center md:justify-self-start md:mt-1" aria-label={companyName}>
+            <img
+              src={logoSrc}
+              alt="Mid Mo Tours"
+              class="h-auto w-auto object-contain"
+              loading="lazy"
+              decoding="async"
+            />
+          </a>
         )
       }
-    </div>
 
-    <!-- Explore -->
-    <nav aria-label="Explore" class="text-sm">
-      <h3 class="font-bold text-accent">Tours</h3>
-      <ul class="mt-3 space-y-2">
-        <li><a href="/tours/standard" class="">JC Highlights Tour</a></li>
-        <li><a href="/tours/custom" class="">Custom Tours</a></li>
-        <li><a href="/packages" class="">Packages</a></li>
-      </ul>
-    </nav>
+      <!-- Contact -->
+      <div>
+        <h2 class="text-2xl font-semibold">{companyName}</h2>
+        {joinAddress(address) && <p class="mt-2 text-sm">{joinAddress(address)}</p>}
 
-    <!-- Company -->
-    <nav aria-label="Company" class="text-sm">
-      <h3 class="font-bold text-accent">Company</h3>
-      <ul class="mt-3 space-y-2">
-        <li><a href="/about" class="">About</a></li>
-        <li><a href="/faq" class="">FAQ</a></li>
-        <li><a href="/contact" class="">Contact</a></li>
-      </ul>
-    </nav>
-
-    <!-- Legal -->
-    <nav aria-label="Legal" class="text-sm">
-      <h3 class="font-bold text-accent">Legal</h3>
-      <ul class="mt-3 space-y-2">
-        <li><a href="/privacy" class="hover:text-accent">Privacy Policy</a></li>
-        <li><a href="/cancellation-policy" class="">Cancellation Policy</a></li>
-        <li><a href="/liability-waiver" class="">Liability Waiver</a></li>
-      </ul>
-    </nav>
-  </div>
-
-  <div class="border-t">
-    <div class="mx-auto max-w-7xl px-4 py-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-      <p class="text-xs">© {year} {companyName}. All rights reserved.</p>
-      <ul class="flex gap-4">
         {
-          socialItems.length > 0 && (
-            <ul class="flex justify-center sm:justify-end items-center gap-3 text-sm" role="list">
-              {socialItems.map((s) => (
+          (phone || email || hours) && (
+            <ul class="mt-3 space-y-1 text-sm" role="list">
+              {phone && (
                 <li>
-                  <a
-                    href={s.url}
-                    class=" inline-flex items-center"
-                    aria-label={s.label}
-                    rel="noopener noreferrer"
-                    target="_blank">
-                    <Icon html={s.icon} />
-                    <span class="sr-only">{s.label}</span>
+                  <a href={telHref} class="inline-flex items-center gap-2 hover:text-accent">
+                    <Icon html={icons.phone} />
+                    <span class="sr-only">Phone:</span>
+                    {phone}
                   </a>
                 </li>
-              ))}
+              )}
+              {email && (
+                <li>
+                  <a href={mailHref} class="inline-flex items-center gap-2 hover:text-accent">
+                    <Icon html={icons.envelope} />
+                    <span class="sr-only">Email:</span>
+                    {email}
+                  </a>
+                </li>
+              )}
+              {hours && (
+                <li class="inline-flex items-center gap-2">
+                  <Icon html={icons.clock} />
+                  <span class="sr-only">Hours:</span>
+                  {hours}
+                </li>
+              )}
             </ul>
           )
         }
-      </ul>
+      </div>
+    </div>
+
+    <!-- Col 2: Navigation (inner 2-col) -->
+    <div class="grid gap-2 md:grid-cols-2 text-sm">
+      <!-- Explore -->
+      <nav aria-label="Explore">
+        <h3 class="text-lg font-bold text-accent">Tours</h3>
+        <ul class="mt-3 space-y-2">
+          <li><a href="/tours/standard" class="hover:text-accent">Highlights Tour</a></li>
+          <li><a href="/tours/custom" class="hover:text-accent">Custom Tours</a></li>
+          <li><a href="/packages" class="hover:text-accent">Packages</a></li>
+        </ul>
+      </nav>
+
+      <!-- Company -->
+      <nav aria-label="Company">
+        <h3 class="text-lg font-bold text-accent">Company</h3>
+        <ul class="mt-3 space-y-2">
+          <li><a href="/about" class="hover:text-accent">About</a></li>
+          <li><a href="/faq" class="hover:text-accent">FAQ</a></li>
+          <li><a href="/contact" class="hover:text-accent">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <!-- Col 3: Newsletter -->
+    <div>
+      <h3 class="text-lg font-bold text-accent mb-4">Join our newsletter</h3>
+      <p class="text-white text-sm mt-4 hidden">Trip announcements, special packages, and local tips.</p>
+      <NewsletterForm />
     </div>
   </div>
 </footer>
+
+<div class="border-t">
+  <div class="mx-auto max-w-7xl px-4 py-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+    <p class="text-xs">© {year} {companyName}. All rights reserved.</p>
+    <ul class="text-xs flex flex-wrap items-center gap-x-4 gap-y-2">
+      <li><a href="/privacy" class="hover:text-accent">Privacy Policy</a></li>
+      <li><a href="/cancellation-policy" class="hover:text-accent">Cancellation Policy</a></li>
+      <li><a href="/liability-waiver" class="hover:text-accent">Liability Waiver</a></li>
+    </ul>
+    <SocialLinks variant="footer" />
+    <!-- <ul class="flex gap-4">
+      {
+        socialItems.length > 0 && (
+          <ul class="flex justify-center sm:justify-end items-center gap-3 text-sm" role="list">
+            {socialItems.map((s) => (
+              <li>
+                <a
+                  href={s.url}
+                  class=" inline-flex items-center hover:text-accent"
+                  aria-label={s.label}
+                  rel="noopener noreferrer"
+                  target="_blank">
+                  <Icon html={s.icon} />
+                  <span class="sr-only">{s.label}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </ul> -->
+  </div>
+</div>
