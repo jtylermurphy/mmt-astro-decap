@@ -110,7 +110,7 @@ exports.handler = async (event) => {
     if (!response.ok) {
       const payload = await response.text();
       console.error("Resend API error", response.status, payload);
-      return redirect("/contact?error=send");
+          return redirect(`/contact?error=send&reason=${encodeURIComponent("verify-domain")}`);
     }
 
     return redirect("/contact/success");
