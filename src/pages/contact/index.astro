@@ -11,6 +11,7 @@ const settings = deriveSettings(raw);
 
 // Optional: Google Forms URL (static fallback)
 const gformUrl = "https://forms.gle/8Nr6gr5Eq6LV7UhT8";
+const error = Astro.url.searchParams.get("error");
 ---
 
 <Base
@@ -28,21 +29,22 @@ const gformUrl = "https://forms.gle/8Nr6gr5Eq6LV7UhT8";
         </div>
       </aside>
 
-      <!-- Form: Netlify Forms (default) -->
+      <!-- Form: handled via API + Resend -->
       <div id="custom-tour" class="lg:col-span-2">
+        {
+          error && (
+            <div class="mb-6 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+              {error === "missing"
+                ? "Please fill out the required fields before submitting."
+                : "We couldn’t send your message right now. Please try again or call us."}
+            </div>
+          )
+        }
         <form
           name="contact"
           method="POST"
-          action="/contact/success"
-          data-netlify="true"
-          netlify-honeypot="bot-field"
+          action="/.netlify/functions/contact"
           class="rounded-2xl border p-6 shadow-sm bg-white">
-          <!-- required for Netlify Forms -->
-          <input type="hidden" name="form-name" value="contact" />
-          <p class="hidden">
-            <label>Don't fill this out: <input name="bot-field" /></label>
-          </p>
-
           <!-- Attribution & context (filled by JS) -->
           <input type="hidden" name="page_url" />
           <input type="hidden" name="page_title" />
