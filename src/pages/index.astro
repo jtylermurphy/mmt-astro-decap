@@ -1,6 +1,6 @@
 ---
 // src/pages/index.astro
-import Base from "../layouts/Base.astro";
+import Base from "@/layouts/Base.astro";
 import Hero from "../components/Hero.astro";
 import FeaturedTours from "../components/FeaturedTours.astro";
 import Testimonials from "../components/Testimonials.astro";
@@ -13,8 +13,8 @@ const featured = [
     scheduleText: "Daily 11:30am & 1:30pm",
     priceNumber: 39,
     thumbnailSrc: "/images/highlights.jpg",
-    href: "/tours/standard",
-    bookingUrl: "/tours/standard",
+    href: "/tours/highlightstour",
+    bookingUrl: "/tours/highlightstour",
     kind: "standard" as const,
     ctaLabel: "View Details",
   },
@@ -39,38 +39,12 @@ const featured = [
     ctaLabel: "See Packages",
   },
 ];
-
-const quotes = [
-  {
-    quote:
-      "Perfect tour service for our corporate event. Professional, punctual, and accommodating. Mid MO Custom Tours exceeded our expectations.",
-    authorName: "Steve",
-    authorMeta: "Jefferson City, MO",
-    rating: 5,
-  },
-  {
-    quote:
-      "Matthew provided an excellent tour of Jefferson City. His knowledge of local history and friendly personality made our visit memorable. Highly recommended!",
-    authorName: "Andy",
-    authorMeta: "Florence, AZ",
-    rating: 5,
-  },
-  {
-    quote:
-      "The custom tour was exactly what we wanted. Matthew tailored the experience to our interests and timing. Great value and personal service.",
-    authorName: "Amy",
-    authorMeta: "Monument, CO",
-    rating: 5,
-  },
-];
 ---
 
 <Base
   title="Mid MO Tours | Jefferson City Tours & Shuttles"
   description="Guided tours of Jefferson City plus custom itineraries and packages.">
   <Hero />
-
   <FeaturedTours items={featured} />
-
-  <Testimonials items={quotes} starColor="#ca902b" />
+  <Testimonials />
 </Base>

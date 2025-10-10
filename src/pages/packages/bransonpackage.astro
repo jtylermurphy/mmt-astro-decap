@@ -1,0 +1,176 @@
+---
+// src/pages/packages/bransonpackage.astro
+import Base from "@/layouts/Base.astro";
+import Icon from "@/components/Icon.astro";
+import { icons } from "@/lib/icons";
+
+const heroCopy = `
+<p>Escape to Branson for an overnight adventure that blends comfortable lodging, celebrated Ozark dining, and a breathtaking performance of <strong>David</strong> at Sight & Sound Theatre.</p>
+<p>We handle the hotel reservations, show tickets, and transportation so you can relax and savor the experience.</p>
+`;
+
+const quickFacts = [
+  { label: "Schedule", icon: icons.calendar, value: "Departs Tuesdays 10:00 AM · Returns Wednesdays 12:00 PM" },
+  { label: "Rates", icon: icons.envelope, value: "$259 per person · $479 per couple" },
+  { label: "Single Room", icon: icons.envelope, value: "$309 for single occupancy" },
+];
+
+const itinerary = [
+  {
+    title: "Day One · Tuesday",
+    description:
+      "Depart Jefferson City at 10:00 AM. Check into the Rosebud Inn or The Seven Gables Inn (availability determines placement), then enjoy lunch and dinner at two Ozark staples such as Lambert’s Cafe, Billy Gail’s, or Billy Bob’s Dairyland.",
+  },
+  {
+    title: "Evening Highlight",
+    description:
+      "Settle into premium seats for <strong>David</strong> at the Sight & Sound Theatre—complete with spectacular staging, live animals, and uplifting music.",
+  },
+  {
+    title: "Day Two · Wednesday",
+    description:
+      "Enjoy breakfast at the hotel, a relaxed morning in Branson, and a comfortable return trip—arriving back in Jefferson City by noon.",
+  },
+];
+
+const inclusions = [
+  "Overnight stay at the Rosebud Inn or The Seven Gables Inn (both 4.5★+ favorites)",
+  "Three meals included (hotel breakfast plus lunch & dinner outings)",
+  "One adult ticket to <em>David</em> at Sight & Sound Theatre",
+  "Round-trip transportation in a safe, comfortable vehicle",
+  "Friendly host to manage logistics throughout the trip",
+];
+
+const goodToKnow = [
+  "Pricing valid for November & December 2025 departures.",
+  "Pickup & drop-off: Courtyard by Marriott, 610 Bolivar St., Jefferson City.",
+  "Free parking available on level two of the attached garage.",
+  "Advise us of mobility or dietary needs when booking.",
+];
+
+const contactUrl = "/contact";
+const contactPhone = "5738269236";
+---
+
+<Base
+  title="Overnight Branson Package | Mid Mo Tours"
+  description="Door-to-door Branson getaway with lodging, dining, and Sight & Sound Theatre tickets.">
+<section class="relative isolate overflow-hidden rounded-3xl bg-white shadow-lg">
+  <div class="grid gap-8 lg:grid-cols-2">
+    <div class="space-y-6 p-8 sm:p-10">
+      <p class="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-primary">
+        <Icon html={icons.calendar} /> Overnight Package
+      </p>
+      <h1 class="text-4xl font-serif font-black italic text-slate-900 sm:text-5xl">Overnight Branson Package</h1>
+      <div class="prose max-w-none text-slate-700" set:html={heroCopy} />
+      <div class="flex flex-wrap items-center gap-3 text-sm text-slate-600">
+        {
+          quickFacts.map((fact) => (
+            <span class="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 font-medium text-primary">
+              <Icon html={fact.icon} /> {fact.value}
+            </span>
+          ))
+        }
+      </div>
+      <div class="flex flex-col gap-3 sm:flex-row">
+        <a href={contactUrl} class="btn btn-primary">Reserve Your Getaway</a>
+        <a href={`tel:${contactPhone}`} class="btn btn-outline">Call 573-826-9236</a>
+      </div>
+    </div>
+    <div class="relative">
+      <img
+        src="/images/david.jpg"
+        alt="Sight & Sound Theatre production of David"
+        class="h-full w-full rounded-b-3xl object-cover lg:rounded-r-3xl lg:rounded-bl-none"
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+  </div>
+</section>
+
+<section class="mt-12 grid gap-6 md:grid-cols-2">
+  <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+    <h2 class="text-2xl font-serif font-semibold text-slate-900">Where We Stay</h2>
+    <p class="mt-3 text-slate-600">
+      We work with two guest-favorite hotels: the Rosebud Inn (4.5★) and The Seven Gables Inn (4.6★). Placement is
+      based on availability, but both offer clean, comfortable rooms and a warm Branson welcome.
+    </p>
+  </article>
+  <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+    <h2 class="text-2xl font-serif font-semibold text-slate-900">Dining Highlights</h2>
+    <p class="mt-3 text-slate-600">
+      Your package includes three meals: hotel breakfast plus two outings at beloved Ozark staples such as
+      Lambert’s Cafe (“Home of Throwed Rolls”), Billy Gail’s, or Billy Bob’s Dairyland.
+    </p>
+  </article>
+</section>
+
+  <section class="mt-16">
+    <div class="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+      <div class="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
+        <h2 class="text-3xl font-serif font-semibold text-slate-900">Itinerary at a Glance</h2>
+        <p class="mt-3 text-slate-600">
+          A relaxed, fully hosted schedule that balances sightseeing, dining, and showtime.
+        </p>
+        <div class="mt-6 space-y-6">
+          {
+            itinerary.map((stop) => (
+              <article class="rounded-xl border border-slate-200 p-6 transition hover:border-primary/60 hover:shadow-md">
+                <h3 class="text-xl font-semibold text-slate-900">{stop.title}</h3>
+                <p class="mt-2 text-slate-600" set:html={stop.description} />
+              </article>
+            ))
+          }
+        </div>
+      </div>
+      <aside class="space-y-6">
+        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <h2 class="text-2xl font-serif font-semibold text-slate-900">What’s Included</h2>
+          <ul class="mt-4 space-y-2 text-slate-600">
+            {
+              inclusions.map((item) => (
+                <li class="flex items-start gap-3">
+                  <span class="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-primary/10 text-primary">
+                    ✓
+                  </span>
+                  <span set:html={item} />
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+        <div class="rounded-2xl border border-slate-200 bg-slate-900 p-6 text-slate-100 shadow-sm">
+          <h2 class="text-2xl font-serif font-semibold">Good to Know</h2>
+          <ul class="mt-4 space-y-3 text-sm">
+            {
+              goodToKnow.map((note) => (
+                <li class="flex gap-2">
+                  <span class="mt-0.5 text-primary">•</span>
+                  <span>{note}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="mt-16 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+    <div class="grid gap-6 md:grid-cols-2 md:items-center">
+      <div>
+        <p class="text-sm font-semibold uppercase tracking-wide text-primary">Ready to get away?</p>
+        <h2 class="mt-2 text-3xl font-serif font-semibold text-slate-900">Secure your Branson package today</h2>
+        <p class="mt-3 text-slate-600">
+          Seasonal availability is limited. Reach out to confirm your preferred dates, ask questions, or reserve your
+          overnight package.
+        </p>
+      </div>
+      <div class="flex flex-col gap-3 sm:flex-row sm:justify-end">
+        <a href={contactUrl} class="btn btn-primary">Request Booking Info</a>
+        <a href={`tel:${contactPhone}`} class="btn btn-outline">Call 573-826-9236</a>
+      </div>
+    </div>
+  </section>
+</Base>

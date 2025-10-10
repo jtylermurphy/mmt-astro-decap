@@ -1,22 +1,18 @@
 ---
 import "../styles/global.css";
-import HeaderNav from "../components/HeaderNav.astro";
-import Footer from "../components/Footer.astro";
-import { getSiteSettings, type SiteSettings } from "../lib/siteSettings";
-import { deriveSettings } from "../lib/settingsUtils";
+import HeaderNav from "@/components/HeaderNav.astro";
+import Footer from "@/components/Footer.astro";
+import { loadChrome } from "@/lib/data/chrome";
 
-const raw = await getSiteSettings();
-const settings = deriveSettings(raw); // adds telHref, mailHref, socials, etc.
-const telHref = settings.phone ? `tel:${settings.phone.replace(/[^\d+]/g, "")}` : "";
 const {
   title = "Mid MO Tours",
   description = "Guided tours and shuttles in Jefferson City",
   pageClass = "",
 } = Astro.props;
+const { header, footer } = await loadChrome();
 ---
 
 <html lang="en" class="h-full">
-  <!-- make the root 100% height -->
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -31,13 +27,13 @@ const {
       rel="stylesheet"
     />
   </head>
-  <body class={` bg-gray-100 min-h-screen flex flex-col  text-slate-800 ${pageClass}`}>
-    <!-- dvh = reliable on mobile -->
-    <HeaderNav settings={settings} />
+  <body class={`bg-gray-100 min-h-screen flex flex-col text-slate-800 ${pageClass}`}>
+    <HeaderNav {...header} />
+
     <main id="main" class="grow w-full mx-auto max-w-7xl px-4 py-12">
-      <!-- grow pushes footer down -->
       <slot />
     </main>
-    <Footer settings={settings} />
+
+    <Footer {...footer} />
   </body>
 </html>

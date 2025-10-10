@@ -1,5 +1,5 @@
 ---
-title: Jefferson City Highlights Tour
+title: Highlights Tour
 tour_type: standard
 price: 39
 duration: 105 min
@@ -11,4 +11,7 @@ active: true
 order: 1
 featured: true
 ---
+
 Explore the 18 must see spots that any visit to Jeferson City should include. Includes narration and historical information.
+
+<p>Perfect for first-time visitors, families, and locals entertaining guests, this 105-minute experience packs history, culture, and small-town charm into one unforgettable ride.</p>

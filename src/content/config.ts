@@ -9,7 +9,7 @@ const tours = defineCollection({
     duration: z.string(),
     image: z.string(),
     booking_url: z.string().url(),
-    short_description: z.string().optional(), // keep optional to avoid breaking existing content
+    short_description: z.string().optional(),
     active: z.boolean().default(true),
     order: z.number().int().default(0),
     featured: z.boolean().default(false),
@@ -50,38 +50,71 @@ const settings = defineCollection({
     phone: z.string().optional(),
     email: z.string().optional(),
     hours: z.string().optional(),
+
+    // socials (existing flat fields still supported)
     facebook: z.string().optional(),
     instagram: z.string().optional(),
     tiktok: z.string().optional(),
     youtube: z.string().optional(),
     threads: z.string().optional(),
     xtwitter: z.string().optional(),
+
     logo: z.string().optional(),
+    logoAlt: z.string().optional(),
     seo: z
       .object({
         site_title: z.string().optional(),
         meta_description: z.string().optional(),
       })
       .optional(),
+
+    // 🚩 ADDED: CTA fields for header/book button
+    book_url: z.string().url().optional(),
+    book_label: z.string().optional(),
+
+    // 🚩 ADDED: optional grouped socials (future-proof; keeps back-compat)
+    socials: z
+      .object({
+        facebook: z.string().url().optional(),
+        instagram: z.string().url().optional(),
+        tiktok: z.string().url().optional(),
+        youtube: z.string().url().optional(),
+        threads: z.string().url().optional(),
+        xtwitter: z.string().url().optional(),
+      })
+      .partial()
+      .optional(),
   }),
 });
 
-// Pages (Home/About/FAQ/Contact share one collection; fields are optional as they vary per file)
+// Pages (Home/About/FAQ/Contact share one collection)
 const pages = defineCollection({
   type: "content",
   schema: z.object({
-    // Home
     hero_heading: z.string().optional(),
     hero_subheading: z.string().optional(),
     hero_image: z.string().optional(),
-    // About
     title: z.string().optional(),
-    // FAQ
     items: z.array(z.object({ q: z.string(), a: z.string() })).optional(),
-    // Contact
     intro: z.string().optional(),
-    // (Markdown body is available separately)
   }),
 });
 
-export const collections = { tours, blog, settings, pages };
+const testimonials = defineCollection({
+  type: "content",
+  schema: z.object({
+    quote: z.string(),
+    authorName: z.string(),
+    authorMeta: z.string().optional(),
+    avatar: z.string().optional(),
+    rating: z.number().int().min(0).max(5).default(5),
+    order: z.number().int().optional(),
+    featured: z.boolean().default(true),
+    tour: z
+      .enum(["highlights", "custom", "packages"])
+      .describe("Which tour/package this testimonial references")
+      .optional(),
+  }),
+});
+
+export const collections = { tours, blog, settings, pages, testimonials };
