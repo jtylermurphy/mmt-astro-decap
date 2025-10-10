@@ -44,6 +44,23 @@ exports.handler = async (event) => {
       return value ? value.trim() : "";
     };
 
+    const honeypot = get("honeypot");
+    const company = get("company");
+    const rawTs = get("ts");
+    const tsMs = Number.parseInt(rawTs, 10);
+    const hasTiming = Number.isFinite(tsMs) && tsMs > 0;
+    const MIN_SUBMIT_TIME_MS = 1500;
+    const suspiciousTiming = hasTiming && tsMs < MIN_SUBMIT_TIME_MS;
+
+    if (honeypot || company || suspiciousTiming) {
+      console.warn("contact submission flagged", {
+        honeypot,
+        company,
+        tsMs: hasTiming ? tsMs : null,
+      });
+      return redirect("/contact/success");
+    }
+
     const name = get("name");
     const email = get("email");
     const phone = get("phone");

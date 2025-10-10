@@ -45,6 +45,9 @@ const error = Astro.url.searchParams.get("error");
           method="POST"
           action="/.netlify/functions/contact"
           class="rounded-2xl border p-6 shadow-sm bg-white">
+          <input type="text" name="company" autocomplete="organization" tabindex="-1" class="sr-only" aria-hidden="true" />
+          <input type="hidden" name="honeypot" value="" />
+          <input type="hidden" name="ts" value="" data-timestamp />
           <!-- Attribution & context (filled by JS) -->
           <input type="hidden" name="page_url" />
           <input type="hidden" name="page_title" />
@@ -158,6 +161,22 @@ const error = Astro.url.searchParams.get("error");
           (function () {
             const form = document.forms["contact"];
             if (!form) return;
+
+            const readyTs = () => {
+              const field = form.querySelector("input[data-timestamp]");
+              if (field) field.value = String(Date.now());
+            };
+
+            readyTs();
+
+            form.addEventListener("submit", () => {
+              const field = form.querySelector("input[data-timestamp]");
+              if (field) {
+                const now = Date.now();
+                const started = Number(field.value || now);
+                field.value = String(now - started);
+              }
+            });
 
             const params = new URLSearchParams(location.search);
             const get = (k) => (params.get(k) || "").trim();
