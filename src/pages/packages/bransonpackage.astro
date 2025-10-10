@@ -55,56 +55,67 @@ const contactPhone = "5738269236";
 <Base
   title="Overnight Branson Package | Mid Mo Tours"
   description="Door-to-door Branson getaway with lodging, dining, and Sight & Sound Theatre tickets.">
-<section class="relative isolate overflow-hidden rounded-3xl bg-white shadow-lg">
-  <div class="grid gap-8 lg:grid-cols-2">
-    <div class="space-y-6 p-8 sm:p-10">
-      <p class="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-primary">
-        <Icon html={icons.calendar} /> Overnight Package
-      </p>
-      <h1 class="text-4xl font-serif font-black italic text-slate-900 sm:text-5xl">Overnight Branson Package</h1>
-      <div class="prose max-w-none text-slate-700" set:html={heroCopy} />
-      <div class="flex flex-wrap items-center gap-3 text-sm text-slate-600">
-        {
-          quickFacts.map((fact) => (
-            <span class="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 font-medium text-primary">
-              <Icon html={fact.icon} /> {fact.value}
-            </span>
-          ))
-        }
+  <section class="relative isolate overflow-hidden rounded-3xl bg-white shadow-lg">
+    <div class="grid gap-8 lg:grid-cols-2">
+      <div class="space-y-6 p-8 sm:p-10">
+        <p class="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-primary">
+          <Icon html={icons.calendar} /> Overnight Package
+        </p>
+        <h1 class="text-4xl font-serif font-black italic text-slate-900 sm:text-5xl">Overnight Branson Package</h1>
+        <div class="prose max-w-none text-slate-700" set:html={heroCopy} />
+        <div class="flex flex-wrap items-center gap-3 text-sm text-slate-600">
+          {
+            quickFacts.map((fact) => (
+              <span class="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 font-medium text-primary">
+                <Icon html={fact.icon} /> {fact.value}
+              </span>
+            ))
+          }
+        </div>
+        <div class="flex flex-col gap-3 sm:flex-row">
+          <a href={contactUrl} class="btn btn-primary">Reserve Your Getaway</a>
+          <a href={`tel:${contactPhone}`} class="btn btn-outline">Call 573-826-9236</a>
+        </div>
       </div>
-      <div class="flex flex-col gap-3 sm:flex-row">
-        <a href={contactUrl} class="btn btn-primary">Reserve Your Getaway</a>
-        <a href={`tel:${contactPhone}`} class="btn btn-outline">Call 573-826-9236</a>
+      <div class="relative">
+        <img
+          src="/images/david.jpg"
+          alt="Sight & Sound Theatre production of David"
+          class="h-full w-full rounded-b-3xl object-cover lg:rounded-r-3xl lg:rounded-bl-none"
+          loading="lazy"
+          decoding="async"
+        />
       </div>
     </div>
-    <div class="relative">
-      <img
-        src="/images/david.jpg"
-        alt="Sight & Sound Theatre production of David"
-        class="h-full w-full rounded-b-3xl object-cover lg:rounded-r-3xl lg:rounded-bl-none"
-        loading="lazy"
-        decoding="async"
-      />
-    </div>
-  </div>
-</section>
+  </section>
 
-<section class="mt-12 grid gap-6 md:grid-cols-2">
-  <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-    <h2 class="text-2xl font-serif font-semibold text-slate-900">Where We Stay</h2>
-    <p class="mt-3 text-slate-600">
-      We work with two guest-favorite hotels: the Rosebud Inn (4.5★) and The Seven Gables Inn (4.6★). Placement is
-      based on availability, but both offer clean, comfortable rooms and a warm Branson welcome.
-    </p>
-  </article>
-  <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-    <h2 class="text-2xl font-serif font-semibold text-slate-900">Dining Highlights</h2>
-    <p class="mt-3 text-slate-600">
-      Your package includes three meals: hotel breakfast plus two outings at beloved Ozark staples such as
-      Lambert’s Cafe (“Home of Throwed Rolls”), Billy Gail’s, or Billy Bob’s Dairyland.
-    </p>
-  </article>
-</section>
+  <section class="mt-12 grid gap-6 md:grid-cols-2">
+    <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+      <h2 class="text-2xl font-serif font-semibold text-slate-900">Where We Stay</h2>
+      <p class="mt-3 text-slate-600">We work with two guest-favorite hotels:</p>
+      <ul>
+        <li><a href="https://rosebudinn.com/" class="text-accent underline">The Rosebud Inn (4.5★)</a></li>
+        <li>
+          <a href="https://www.bransonsevengablesinn.com/" class="text-accent underline">The Seven Gables Inn (4.6★)</a>
+        </li>
+      </ul>
+      <p class="mt-3 text-slate-600">
+        Placement is based on availability, but both offer clean, comfortable rooms and a warm Branson welcome.
+      </p>
+    </article>
+    <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+      <h2 class="text-2xl font-serif font-semibold text-slate-900">Dining Highlights</h2>
+      <p class="mt-3 text-slate-600">
+        Your package includes three meals: hotel breakfast plus two outings at beloved Ozark staples such as <a
+          href="https://throwedrolls.com/"
+          class="text-accent underline">Lambert’s Cafe (“Home of Throwed Rolls”)</a
+        >, <a href="https://billygailsrestaurant.com/" class="text-accent underline">Billy Gail’s</a>, or <a
+          href="https://billy-bobs-dairyland.restaurants-world.com/"
+          class="text-accent underline">Billy Bob’s Dairyland</a
+        >.
+      </p>
+    </article>
+  </section>
 
   <section class="mt-16">
     <div class="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
