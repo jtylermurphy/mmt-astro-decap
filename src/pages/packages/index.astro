@@ -1,35 +1,18 @@
 ---
 // src/pages/packages/index.astro
-import Base from "../../layouts/Base.astro";
-import PackagesIndex from "../../components/PackagesIndex.astro";
+import Base from "@/layouts/Base.astro";
+import PackagesIndex from "@/components/PackagesIndex.astro";
 
 /* Replace these with your real packages when ready */
 const packages = [
   {
-    title: "City Highlights + Museum",
-    includes: ["90-min city tour", "Museum admission", "Photo stops"],
-    duration: "Half-day",
-    priceText: "From $89 per person",
-    thumbnailSrc: "/uploads/package-museum.jpg",
+    title: "Overnight Branson Package",
+    teaser: "Lodging, Ozark dining, and Sight & Sound’s David—wrapped into a turnkey overnight getaway.",
+    duration: "Tuesday–Wednesday",
+    thumbnailSrc: "/images/david.jpg",
+    href: "/packages/bransonpackage",
     formUrl: "/contact",
-    ctaLabel: "Request Info",
-  },
-  {
-    title: "Capitol & Downtown Experience",
-    includes: ["Guided city tour", "Capitol grounds stop", "Downtown free time"],
-    duration: "Half-day",
-    priceText: "Contact for pricing",
-    thumbnailSrc: "/uploads/package-downtown.jpg",
-    formUrl: "/contact",
-  },
-  {
-    title: "Full-Day Group Package",
-    includes: ["City tour + custom stops", "Lunch break suggestions", "Flexible pickup"],
-    duration: "Full-day",
-    priceText: "Group rates available",
-    thumbnailSrc: "/uploads/package-group.jpg",
-    formUrl: "/contact",
-    ctaLabel: "Plan My Package",
+    ctaLabel: "View Details",
   },
 ];
 ---

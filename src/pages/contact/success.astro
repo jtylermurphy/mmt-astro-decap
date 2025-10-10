@@ -1,21 +1,16 @@
 ---
 // src/pages/contact/success.astro
-import Base from "../../layouts/Base.astro";
+import Base from "@/layouts/Base.astro";
 ---
 
 <Base title="Message Sent | Mid MO Tours" description="Thanks for contacting us.">
-  <section class="bg-white">
+  <section class="">
     <div class="mx-auto max-w-3xl px-4 py-12 text-center">
-      <h1 class="text-3xl font-semibold tracking-tight">Thanks — we’ve got your message!</h1>
-      <p class="mt-3 text-slate-600">We’ll reply as soon as possible.</p>
+      <h1 class="text-3xl font-semibold tracking-tight">Thanks — we've got your message!</h1>
+      <p class="mt-3 text-slate-600">We'll reply as soon as possible.</p>
       <div class="mt-6 flex items-center justify-center gap-3">
-        <a href="/" class="rounded-xl border px-5 py-3 text-sm font-semibold text-slate-800 hover:bg-slate-100"
-          >Back home</a
-        >
-        <a
-          href="/tours/"
-          class="rounded-xl bg-emerald-600 px-5 py-3 text-sm font-semibold text-white hover:bg-emerald-700">See tours</a
-        >
+        <a href="/" class="btn btn-primary">Back home</a>
+        <a href="/tours/" class="btn btn-outline">See tours</a>
       </div>
     </div>
   </section>

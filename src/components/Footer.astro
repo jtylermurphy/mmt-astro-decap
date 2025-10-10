@@ -1,43 +1,17 @@
 ---
-import type { SiteSettings } from "../lib/siteSettings";
-import Icon from "../components/Icon.astro";
-import { icons } from "../lib/icons";
-import NewsletterForm from "../components/NewsletterForm.astro";
+import type { FooterProps } from "@/lib/data/site";
+import Icon from "@/components/Icon.astro";
+import { icons } from "@/lib/icons";
+import NewsletterForm from "@/components/NewsletterForm.astro";
 import SocialLinks from "./SocialLinks.astro";
 
-interface Props {
-  settings: SiteSettings;
-}
+const { siteName, logoSrc, address, contact, socials, nav, legalLinks, year } = Astro.props as FooterProps;
 
-const { settings } = Astro.props as Props;
-
-const companyName = settings.company_name ?? "Mid Mo Tours";
-const address = settings.address;
-const phone = settings.phone ?? "";
-const email = settings.email ?? "";
-const hours = settings.hours ?? "";
-const logoSrc = (settings.logo as string) || "";
-
-const socials = [
-  { label: "Facebook", url: settings.facebook },
-  { label: "Instagram", url: settings.instagram },
-  { label: "TikTok", url: settings.tiktok },
-  { label: "YouTube", url: settings.youtube },
-  { label: "Threads", url: settings.threads },
-].filter((s) => s?.url);
-
-const year = new Date().getFullYear();
-const telHref = phone ? `tel:${phone.replace(/[^+\d]/g, "")}` : "";
-const mailHref = email ? `mailto:${email}` : "";
-// Build only the socials that have URLs
-const socialItems = [
-  settings.facebook && { label: "Facebook", url: settings.facebook, icon: icons.facebook },
-  settings.instagram && { label: "Instagram", url: settings.instagram, icon: icons.instagram },
-  settings.tiktok && { label: "TikTok", url: settings.tiktok, icon: icons.tiktok },
-  settings.youtube && { label: "YouTube", url: settings.youtube, icon: icons.youtube },
-  settings.threads && { label: "Threads", url: settings.threads, icon: icons.threads },
-  settings.xtwitter && { label: "X (Twitter)", url: settings.xtwitter, icon: icons.xtwitter },
-].filter(Boolean) as { label: string; url: string; icon: string }[];
+const phone = contact?.phone ?? "";
+const email = contact?.email ?? "";
+const hours = contact?.hours ?? "";
+const telHref = contact?.telHref ?? (phone ? `tel:${phone.replace(/[^\d+]/g, "")}` : "");
+const mailHref = contact?.mailHref ?? (email ? `mailto:${email}` : "");
 
 function joinAddress(a?: { street?: string; city?: string; state?: string; zip?: string }) {
   if (!a) return "";
@@ -52,7 +26,7 @@ function joinAddress(a?: { street?: string; city?: string; state?: string; zip?:
       <!-- Logo -->
       {
         logoSrc && (
-          <a href="/" class="inline-block justify-self-center md:justify-self-start md:mt-1" aria-label={companyName}>
+          <a href="/" class="inline-block justify-self-center md:justify-self-start md:mt-1" aria-label={siteName}>
             <img
               src={logoSrc}
               alt="Mid Mo Tours"
@@ -66,7 +40,7 @@ function joinAddress(a?: { street?: string; city?: string; state?: string; zip?:
 
       <!-- Contact -->
       <div>
-        <h2 class="text-2xl font-black italic tracking-wide">{companyName}</h2>
+        <h2 class="text-2xl font-black italic tracking-wide">{siteName}</h2>
         {joinAddress(address) && <p class="mt-2 text-sm">{joinAddress(address)}</p>}
 
         {
@@ -109,9 +83,13 @@ function joinAddress(a?: { street?: string; city?: string; state?: string; zip?:
       <nav aria-label="Explore">
         <h3 class="text-lg font-bold text-accent">Tours</h3>
         <ul class="mt-3 space-y-2">
-          <li><a href="/tours/standard" class="hover:text-accent">Highlights Tour</a></li>
-          <li><a href="/tours/custom" class="hover:text-accent">Custom Tours</a></li>
-          <li><a href="/packages" class="hover:text-accent">Packages</a></li>
+          {nav.tours.map((item) => (
+            <li>
+              <a href={item.href} class="hover:text-accent">
+                {item.label}
+              </a>
+            </li>
+          ))}
         </ul>
       </nav>
 
@@ -119,9 +97,13 @@ function joinAddress(a?: { street?: string; city?: string; state?: string; zip?:
       <nav aria-label="Company">
         <h3 class="text-lg font-bold text-accent">Company</h3>
         <ul class="mt-3 space-y-2">
-          <li><a href="/about" class="hover:text-accent">About</a></li>
-          <li><a href="/faq" class="hover:text-accent">FAQ</a></li>
-          <li><a href="/contact" class="hover:text-accent">Contact</a></li>
+          {nav.company.map((item) => (
+            <li>
+              <a href={item.href} class="hover:text-accent">
+                {item.label}
+              </a>
+            </li>
+          ))}
         </ul>
       </nav>
     </div>
@@ -137,33 +119,16 @@ function joinAddress(a?: { street?: string; city?: string; state?: string; zip?:
 
 <div class="border-t">
   <div class="mx-auto max-w-7xl px-4 py-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-    <p class="text-xs">© {year} {companyName}. All rights reserved.</p>
+    <p class="text-xs">© {year} {siteName}. All rights reserved.</p>
     <ul class="text-xs flex flex-wrap items-center gap-x-4 gap-y-2">
-      <li><a href="/privacy" class="hover:text-accent">Privacy Policy</a></li>
-      <li><a href="/cancellation-policy" class="hover:text-accent">Cancellation Policy</a></li>
-      <li><a href="/liability-waiver" class="hover:text-accent">Liability Waiver</a></li>
+      {legalLinks.map((item) => (
+        <li>
+          <a href={item.href} class="hover:text-accent">
+            {item.label}
+          </a>
+        </li>
+      ))}
     </ul>
-    <SocialLinks variant="footer" />
-    <!-- <ul class="flex gap-4">
-      {
-        socialItems.length > 0 && (
-          <ul class="flex justify-center sm:justify-end items-center gap-3 text-sm" role="list">
-            {socialItems.map((s) => (
-              <li>
-                <a
-                  href={s.url}
-                  class=" inline-flex items-center hover:text-accent"
-                  aria-label={s.label}
-                  rel="noopener noreferrer"
-                  target="_blank">
-                  <Icon html={s.icon} />
-                  <span class="sr-only">{s.label}</span>
-                </a>
-              </li>
-            ))}
-          </ul>
-        )
-      }
-    </ul> -->
+    <SocialLinks links={socials} variant="footer" />
   </div>
 </div>

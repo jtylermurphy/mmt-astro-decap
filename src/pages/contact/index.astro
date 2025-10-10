@@ -16,12 +16,12 @@ const gformUrl = "https://forms.gle/8Nr6gr5Eq6LV7UhT8";
 <Base
   title="Contact | Mid MO Tours"
   description="Get in touch to book a tour, plan a custom itinerary, or ask a question.">
-  <section class="bg-white">
+  <section class="">
     <div class="mx-auto max-w-7xl px-4 py-12 grid gap-10 lg:grid-cols-3">
       <!-- Contact info (matches footer/header styling) -->
       <aside class="lg:col-span-1">
         <h1 class="text-3xl font-semibold tracking-tight">Contact Us</h1>
-        <p class="mt-3 text-slate-600">We’ll get back to you as soon as we can.</p>
+        <p class="mt-3 text-slate-600">We'll get back to you as soon as we can.</p>
 
         <div class="mt-6">
           <ContactInfo settings={settings} />
@@ -36,11 +36,11 @@ const gformUrl = "https://forms.gle/8Nr6gr5Eq6LV7UhT8";
           action="/contact/success"
           data-netlify="true"
           netlify-honeypot="bot-field"
-          class="rounded-2xl border p-6 shadow-sm">
+          class="rounded-2xl border p-6 shadow-sm bg-white">
           <!-- required for Netlify Forms -->
           <input type="hidden" name="form-name" value="contact" />
           <p class="hidden">
-            <label>Don’t fill this out: <input name="bot-field" /></label>
+            <label>Don't fill this out: <input name="bot-field" /></label>
           </p>
 
           <!-- Attribution & context (filled by JS) -->

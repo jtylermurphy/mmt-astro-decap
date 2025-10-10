@@ -35,10 +35,9 @@ function formatPrice(n?: number) {
   <div class="mx-auto max-w-7xl px-4 py-12">
     <!-- Header -->
     <header class="mb-8">
-      <h1 class="text-3xl font-semibold tracking-tight">{title}</h1>
+      <h1 class="text-3xl lg:text-5xl font-bold italic tracking-normal">{title}</h1>
     </header>
-
-    <div class="grid gap-8 lg:grid-cols-3">
+    <div class="grid gap-8 lg:grid-cols-4">
       <!-- Media -->
       {
         imageSrc && (
@@ -53,9 +52,28 @@ function formatPrice(n?: number) {
           </div>
         )
       }
+      <div class="lg:col-span-2">
+        {
+          bodyHtml ? (
+            <div class="space-y-4" set:html={bodyHtml} />
+          ) : (
+            <div class="space-y-4">
+              <slot />
+            </div>
+          )
+        }{
+          bookingUrl && (
+            <div id="book" class="mt-10">
+              <a href={bookingUrl} class="btn btn-primary">
+                Book Now
+              </a>
+            </div>
+          )
+        }
+      </div>
 
       <!-- Quick facts / CTA -->
-      <aside class="lg:col-span-1">
+      <!-- <aside class="lg:col-span-1">
         <div class="rounded-2xl border shadow-sm p-5 bg-white">
           <h2 class="text-lg font-semibold mb-4">Quick facts</h2>
           <dl class="space-y-3 text-sm text-slate-700">
@@ -108,12 +126,16 @@ function formatPrice(n?: number) {
             )
           }
         </div>
-      </aside>
+      </aside> -->
+    </div>
+
+    <div class="mt-10 bg-gray-200 px-10 py-5 rounded-lg">
+      <h2 class="text-center font-black italic text-xl lg:text-3xl">Tour Overview</h2>
     </div>
 
     <!-- Body -->
     <div class="mt-10">
-      {
+      <!-- {
         bodyHtml ? (
           <div class="space-y-4" set:html={bodyHtml} />
         ) : (
@@ -121,7 +143,7 @@ function formatPrice(n?: number) {
             <slot />
           </div>
         )
-      }
+      } -->
     </div>
 
     {

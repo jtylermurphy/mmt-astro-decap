@@ -1,140 +1,72 @@
 ---
 /* src/components/HeaderNav.astro */
-import type { SiteSettings } from "../lib/siteSettings";
-import Icon from "../components/Icon.astro";
-import { icons } from "../lib/icons";
+import Icon from "@/components/Icon.astro";
+import { icons } from "@/lib/icons";
+import type { HeaderNavProps } from "@/lib/data/site";
+import SocialLinks from "@/components/SocialLinks.astro";
 
-type NavLink = { label: string; href: string };
-
-interface Props {
-  settings?: SiteSettings;
-  siteName?: string;
-  logoSrc?: string;
-  logoAlt?: string;
-  navLinks?: NavLink[];
-  bookUrl?: string;
-  bookLabel?: string;
-  sticky?: boolean;
-  phone?: string;
-  telHref?: string;
-}
-
-const defaultLinks: NavLink[] = [
-  { label: "Home", href: "/" },
-  { label: "Tours", href: "/tours/" },
-  { label: "About", href: "/about/" },
-  { label: "FAQ", href: "/faq/" },
-  { label: "Contact", href: "/contact/" },
-];
-
-const {
-  settings = {} as SiteSettings,
-
-  siteName = settings.company_name ?? "Mid MO Tours",
-  logoSrc,
-  logoAlt = "Mid MO Tours",
-  bookUrl = "",
-  bookLabel = "See Tours",
-  sticky = true,
-} = Astro.props as Props;
-
-const navLinks: NavLink[] = (Astro.props as Props).navLinks ?? defaultLinks;
-
-const phone = settings.phone ?? "";
-const email = settings.email ?? "";
-
-const telHref = phone ? `tel:${phone.replace(/[^\d+]/g, "")}` : "";
-const mailHref = email ? `mailto:${email}` : "";
-
-// Build only the socials that have URLs
-const socialItems = [
-  settings.facebook && { label: "Facebook", url: settings.facebook, icon: icons.facebook },
-  settings.instagram && { label: "Instagram", url: settings.instagram, icon: icons.instagram },
-  settings.tiktok && { label: "TikTok", url: settings.tiktok, icon: icons.tiktok },
-  settings.youtube && { label: "YouTube", url: settings.youtube, icon: icons.youtube },
-  settings.threads && { label: "Threads", url: settings.threads, icon: icons.threads },
-  settings.xtwitter && { label: "X (Twitter)", url: settings.xtwitter, icon: icons.xtwitter },
-].filter(Boolean) as { label: string; url: string; icon: string }[];
+const props = Astro.props as HeaderNavProps;
+const { siteName, logoSrc, logoAlt = siteName, sticky, links, cta, contact, socials } = props;
 ---
 
-<header class={`bg-white border-b-3 border-primary ${sticky ? "sticky top-0 z-40" : ""}`}>
-  <div class="bg-secondary text-white">
+<header class={`bg-white border-b-[3px] border-primary ${sticky ? "sticky top-0 z-40" : ""}`}>
+  <!-- Top bar -->
+  <div class="bg-secondary text-white hidden md:block">
     <div
       class="mx-auto max-w-7xl px-4 py-2 sm:h-10 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-0 sm:justify-between">
       <!-- Left: phone/email -->
       <div class="text-sm flex flex-col sm:flex-row items-center gap-2">
         {
-          phone && (
+          contact?.phone && (
             <a
-              class="inline-flex items-center gap-2 header__phone hover:text-primary!"
-              href={telHref}
-              aria-label={`Call ${phone}`}>
+              class="inline-flex items-center gap-2 hover:!text-primary"
+              href={contact.telHref}
+              aria-label={`Call ${contact.phone}`}>
               <Icon html={icons.phone} />
-              {phone}
+              {contact.phone}
             </a>
           )
         }
-        {phone && email && <span class="hidden sm:inline">•</span>}
+        {contact?.phone && contact?.email && <span class="hidden sm:inline">•</span>}
         {
-          email && (
-            <a href={mailHref} class="inline-flex items-center gap-2 hover:text-primary!" aria-label={`Email ${email}`}>
+          contact?.email && (
+            <a
+              href={contact.mailHref}
+              class="inline-flex items-center gap-2 hover:!text-primary"
+              aria-label={`Email ${contact.email}`}>
               <Icon html={icons.envelope} />
-              {email}
+              {contact.email}
             </a>
           )
         }
       </div>
 
-      <!-- Right: socials -->
-      {
-        socialItems.length > 0 && (
-          <ul class="flex justify-center sm:justify-end items-center gap-3 text-sm" role="list">
-            {socialItems.map((s) => (
-              <li>
-                <a
-                  href={s.url}
-                  class="text-white inline-flex items-center hover:text-primary!"
-                  aria-label={s.label}
-                  rel="noopener noreferrer"
-                  target="_blank">
-                  <Icon html={s.icon} />
-                  <span class="sr-only">{s.label}</span>
-                </a>
-              </li>
-            ))}
-          </ul>
-        )
-      }
+      <SocialLinks links={socials} />
     </div>
   </div>
 
+  <!-- Main bar -->
   <div class="mx-auto max-w-7xl px-4 h-16 flex items-center justify-between">
     <a href="/" class="flex items-center gap-2">
       <img src="/images/logo-van-only.png" alt="" class="h-12 w-auto" />
-      {
-        logoSrc ? (
-          <img src={logoSrc} alt={logoAlt} class="h-8 w-auto" loading="eager" decoding="async" />
-        ) : (
-          <span class="text-2xl font-serif font-black italic tracking-wide">{siteName}</span>
-        )
-      }
+      <span class="text-2xl font-serif font-black italic tracking-wide">{siteName}</span>
     </a>
 
     <!-- Desktop nav -->
     <nav class="hidden md:flex items-center gap-6" aria-label="Primary">
       {
-        navLinks.map((item) => (
+        links.map((item) => (
           <a href={item.href} class="text-sm text-slate-700 hover:text-slate-950">
             {item.label}
           </a>
         ))
       }
       {
-        bookUrl && (
+        cta && (
           <a
-            href={bookUrl}
+            href={cta.href}
             class="rounded-lg bg-emerald-600 px-3 py-2 text-sm font-semibold text-white hover:bg-emerald-700">
-            {bookLabel}
+            {cta.label}
           </a>
         )
       }
@@ -157,18 +89,18 @@ const socialItems = [
   <nav id="mobile-menu" class="md:hidden border-t hidden" aria-label="Mobile">
     <div class="mx-auto max-w-7xl px-4 py-3 flex flex-col gap-2">
       {
-        navLinks.map((item) => (
+        links.map((item) => (
           <a href={item.href} class="rounded-lg px-3 py-2 text-base text-slate-800 hover:bg-slate-100">
             {item.label}
           </a>
         ))
       }
       {
-        bookUrl && (
+        cta && (
           <a
-            href={bookUrl}
+            href={cta.href}
             class="mt-2 inline-flex items-center justify-center rounded-lg bg-emerald-600 px-4 py-2 text-base font-semibold text-white hover:bg-emerald-700">
-            {bookLabel}
+            {cta.label}
           </a>
         )
       }
@@ -177,16 +109,13 @@ const socialItems = [
 </header>
 
 <script type="module">
-  // Simple toggle: no focus trap, no IDs gymnastics
   const btn = document.getElementById("mobile-menu-btn");
   const panel = document.getElementById("mobile-menu");
-
   if (btn && panel) {
     btn.addEventListener("click", () => {
       const nowHidden = panel.classList.toggle("hidden");
       btn.setAttribute("aria-expanded", String(!nowHidden));
     });
-
     panel.addEventListener("click", (e) => {
       const a = e.target.closest("a");
       if (a) {

@@ -1,5 +1,6 @@
 ---
 /* src/components/Testimonials.astro */
+import { getCollection, type CollectionEntry } from "astro:content";
 
 type Testimonial = {
   quote: string;
@@ -7,64 +8,302 @@ type Testimonial = {
   authorMeta?: string;
   avatarSrc?: string;
   rating?: number; // 0–5 (integers)
+  tour?: string;
 };
 
 interface Props {
   title?: string;
-  items: Testimonial[];
-  starColor?: string; // brand gold hex
+  items?: Testimonial[];
+  featuredOnly?: boolean;
+  limit?: number;
+  tour?: "highlights" | "custom" | "packages" | string;
 }
 
-const { title = "What our guests say", items = [], starColor = "#ca902b" } = Astro.props as Props;
+const {
+  title = "What our guests say",
+  items: providedItems,
+  featuredOnly = true,
+  limit,
+  tour,
+} = Astro.props as Props;
 
 const clamp = (n: number, min = 0, max = 5) => Math.max(min, Math.min(max, Math.floor(n)));
-const stars = [1, 2, 3, 4, 5];
+const stars = [1, 2, 3, 4, 5] as const;
+
+type TestimonialEntry = CollectionEntry<"testimonials">;
+
+const mapEntry = (entry: TestimonialEntry): Testimonial => ({
+  quote: entry.data.quote,
+  authorName: entry.data.authorName,
+  authorMeta: entry.data.authorMeta,
+  avatarSrc: entry.data.avatar,
+  rating: entry.data.rating,
+  tour: entry.data.tour,
+});
+
+let testimonials: Testimonial[] = providedItems ?? [];
+
+if (!testimonials.length) {
+  const entries = await getCollection("testimonials", (entry) => (featuredOnly ? entry.data.featured !== false : true));
+  const sorted = entries.sort((a, b) => {
+    const aOrder = a.data.order ?? Number.MAX_SAFE_INTEGER;
+    const bOrder = b.data.order ?? Number.MAX_SAFE_INTEGER;
+    if (aOrder !== bOrder) return aOrder - bOrder;
+    return a.slug.localeCompare(b.slug);
+  });
+  testimonials = sorted.map(mapEntry);
+}
+
+if (tour) {
+  const matching = testimonials.filter((item) => item.tour === tour);
+  if (matching.length > 0) {
+    testimonials = matching;
+  }
+}
+
+if (typeof limit === "number" && limit > 0) {
+  testimonials = testimonials.slice(0, limit);
+}
+
+const hasTestimonials = testimonials.length > 0;
 ---
 
 <section class="">
   <div class="mx-auto max-w-7xl px-4 py-12">
     {title && <h2 class="text-2xl font-semibold tracking-tight mb-6">{title}</h2>}
 
-    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {
-        items.map((t) => {
-          const rating = clamp(t.rating ?? 0);
-          return (
-            <figure class="rounded-2xl border p-6 shadow-lg border-gray-200 bg-white">
-              <blockquote class="text-slate-800">
-                <p>“{t.quote}”</p>
-              </blockquote>
+    {
+      hasTestimonials ? (
+        <div class="relative flex items-center" data-carousel>
+          <button
+            type="button"
+            class="flex shrink-0 items-center justify-center rounded-full bg-white/95 p-2 shadow-lg ring-1 ring-slate-200 transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary pointer-events-auto md:absolute md:left-2 md:top-1/2 md:-translate-y-1/2 md:-translate-x-1/2"
+            data-carousel-prev
+            aria-label="Previous testimonials"
+          >
+            <svg class="h-5 w-5 text-slate-700" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M12 5l-5 5 5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
+          <div class="overflow-hidden w-full">
+            <ul
+              class="testimonial-carousel-track"
+              data-carousel-track
+              role="list"
+            aria-live="polite"
+          >
+            {testimonials.map((t) => {
+              const rating = clamp(t.rating ?? 0);
+              return (
+                  <li class="testimonial-carousel-item">
+                    <figure class="rounded-2xl border p-6 shadow-lg border-gray-200 bg-white h-full flex flex-col">
+                      <blockquote class="text-slate-800">
+                        <p>“{t.quote}”</p>
+                      </blockquote>
 
-              <div class="mt-4 flex items-center gap-3">
-                {t.avatarSrc && (
-                  <img
-                    src={t.avatarSrc}
-                    alt=""
-                    class="h-10 w-10 rounded-full object-cover"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                )}
-                <figcaption class="flex-1">
-                  <div class="font-medium">{t.authorName}</div>
-                  {t.authorMeta && <div class="text-sm text-slate-500">{t.authorMeta}</div>}
-                </figcaption>
-              </div>
+                      <div class="mt-4 flex items-center gap-3">
+                        {t.avatarSrc && (
+                          <img
+                            src={t.avatarSrc}
+                            alt=""
+                            class="h-10 w-10 rounded-full object-cover"
+                            loading="lazy"
+                            decoding="async"
+                          />
+                        )}
+                        <figcaption class="flex-1">
+                          <div class="font-medium">{t.authorName}</div>
+                          {t.authorMeta && <div class="text-sm text-slate-500">{t.authorMeta}</div>}
+                        </figcaption>
+                      </div>
 
-              <div class="mt-4 flex items-center gap-1" role="img" aria-label={`${rating} out of 5 stars`}>
-                {stars.map((i) => (
-                  <svg class="h-5 w-5" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <path
-                      d="M10 2.5l2.472 4.87 5.378.782-3.89 3.793.918 5.355L10 14.98l-4.878 2.32.918-5.355L2.15 8.152l5.378-.782L10 2.5z"
-                      fill={i <= rating ? starColor : "#E5E7EB"}
-                    />
-                  </svg>
-                ))}
-              </div>
-            </figure>
-          );
-        })
-      }
-    </div>
+                      <div
+                        class="mt-4 flex items-center gap-1"
+                        role="img"
+                        aria-label={`${rating} out of 5 stars`}
+                      >
+                        {stars.map((i) => (
+                          <svg class="h-5 w-5" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path
+                              d="M10 2.5l2.472 4.87 5.378.782-3.89 3.793.918 5.355L10 14.98l-4.878 2.32.918-5.355L2.15 8.152l5.378-.782L10 2.5z"
+                              fill={i <= rating ? "#ca902b" : "#E5E7EB"}
+                            />
+                          </svg>
+                        ))}
+                      </div>
+                    </figure>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+          <button
+            type="button"
+            class="flex shrink-0 items-center justify-center rounded-full bg-white/95 p-2 shadow-lg ring-1 ring-slate-200 transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary pointer-events-auto md:absolute md:right-2 md:top-1/2 md:-translate-y-1/2 md:translate-x-1/2"
+            data-carousel-next
+            aria-label="Next testimonials"
+          >
+            <svg class="h-5 w-5 text-slate-700" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M8 5l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
+        </div>
+      ) : (
+        <p class="text-slate-500">Testimonials coming soon.</p>
+      )
+    }
   </div>
 </section>
+
+<style>
+  .testimonial-carousel-track {
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    padding: 0.25rem;
+  }
+
+  .testimonial-carousel-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .testimonial-carousel-track {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .testimonial-carousel-item {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+  }
+
+  @media (min-width: 640px) {
+    .testimonial-carousel-item {
+      flex-basis: calc((100% - 1.5rem) / 2);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .testimonial-carousel-item {
+      flex-basis: calc((100% - 3rem) / 3);
+    }
+  }
+</style>
+
+{hasTestimonials && (
+  <script is:inline>
+    (() => {
+      const init = () => {
+        const roots = Array.from(document.querySelectorAll("[data-carousel]"));
+        roots.forEach((root) => {
+          if (!(root instanceof HTMLElement)) return;
+          if (root.dataset.carouselInitialized === "true") return;
+
+          const track = root.querySelector("[data-carousel-track]");
+          const prev = root.querySelector("[data-carousel-prev]");
+          const next = root.querySelector("[data-carousel-next]");
+          if (!(track instanceof HTMLElement && prev instanceof HTMLButtonElement && next instanceof HTMLButtonElement)) {
+            return;
+          }
+
+          const items = Array.from(track.children).filter((el) => el instanceof HTMLElement);
+          if (!items.length) {
+            prev.disabled = true;
+            next.disabled = true;
+            return;
+          }
+
+          let index = 0;
+          const itemsPerView = () => {
+            if (window.matchMedia("(min-width: 1024px)").matches) return 3;
+            if (window.matchMedia("(min-width: 640px)").matches) return 2;
+            return 1;
+          };
+          const maxIndex = () => Math.max(0, items.length - itemsPerView());
+          const step = () => Math.max(1, itemsPerView());
+
+          const updateButtons = () => {
+            const max = maxIndex();
+            const disablePrev = index <= 0;
+            const disableNext = index >= max;
+            prev.disabled = disablePrev;
+            next.disabled = disableNext;
+            if (window.matchMedia("(min-width: 640px)").matches) {
+              prev.classList.toggle("opacity-0", max <= 0 || disablePrev);
+              prev.classList.toggle("pointer-events-none", max <= 0 || disablePrev);
+              next.classList.toggle("opacity-0", max <= 0 || disableNext);
+              next.classList.toggle("pointer-events-none", max <= 0 || disableNext);
+            } else {
+              prev.classList.remove("opacity-0", "pointer-events-none");
+              next.classList.remove("opacity-0", "pointer-events-none");
+            }
+          };
+
+          const scrollToIndex = (nextIndex, behavior = "smooth") => {
+            const clamped = Math.min(Math.max(nextIndex, 0), maxIndex());
+            index = clamped;
+            const target = items[clamped];
+            if (!target) {
+              updateButtons();
+              return;
+            }
+            target.scrollIntoView({ behavior, inline: "start", block: "nearest" });
+            updateButtons();
+          };
+
+          const handleScroll = () => {
+            window.requestAnimationFrame(() => {
+              const trackRect = track.getBoundingClientRect();
+              const current = items.reduce(
+                (closest, item, idx) => {
+                  const rect = item.getBoundingClientRect();
+                  const distance = Math.abs(rect.left - trackRect.left);
+                  return distance < closest.distance ? { distance, index: idx } : closest;
+                },
+                { distance: Number.POSITIVE_INFINITY, index }
+              );
+              const rawIndex = Math.min(Math.max(current.index, 0), maxIndex());
+              const perView = step();
+              const snappedIndex = perView > 1 ? Math.min(Math.floor(rawIndex / perView) * perView, maxIndex()) : rawIndex;
+              const newIndex = snappedIndex;
+              if (newIndex !== index) {
+                index = newIndex;
+                updateButtons();
+              }
+            });
+          };
+
+          prev.addEventListener("click", () => scrollToIndex(index - step()));
+          next.addEventListener("click", () => scrollToIndex(index + step()));
+          dots.forEach((dot, dotIndex) => {
+            dot.addEventListener("click", () => {
+              const perView = step();
+              scrollToIndex(dotIndex * perView, "smooth");
+            });
+          });
+          track.addEventListener("scroll", handleScroll, { passive: true });
+
+          let resizeTimer = 0;
+          const onResize = () => {
+            window.clearTimeout(resizeTimer);
+            resizeTimer = window.setTimeout(() => scrollToIndex(index, "auto"), 150);
+          };
+          window.addEventListener("resize", onResize);
+
+          updateButtons();
+          root.dataset.carouselInitialized = "true";
+        });
+      };
+
+      if (document.readyState === "complete" || document.readyState === "interactive") {
+        init();
+      } else {
+        document.addEventListener("DOMContentLoaded", init, { once: true });
+      }
+      document.addEventListener("astro:page-load", init);
+      document.addEventListener("astro:after-swap", init);
+    })();
+  </script>
+)}
