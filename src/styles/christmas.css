@@ -1,0 +1,126 @@
+:root {
+  --light-red: 255, 82, 82;
+  --light-blue: 72, 149, 239;
+  --light-green: 0, 247, 165;
+  --light-orange: 255, 173, 66;
+  --light-purple: 182, 140, 255;
+  --light-off-opacity: 0.4;
+}
+
+.lightrope {
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  position: absolute;
+  z-index: 1;
+  margin: -15px 0 0 0;
+  padding: 0;
+  pointer-events: none;
+  width: 100%;
+}
+
+.lightrope li {
+  position: relative;
+  animation-fill-mode: both;
+  animation-iteration-count: infinite;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+  width: 12px;
+  height: 28px;
+  border-radius: 50%;
+  margin: 20px;
+  --globe-color: var(--light-green);
+  transform-origin: top center;
+  background: rgba(var(--globe-color), 1);
+  box-shadow: 0px 4.6667px 24px 3px rgba(var(--globe-color), 1);
+  animation-name: flash;
+  animation-duration: 2s;
+}
+
+.lightrope li:nth-child(5n + 1) {
+  --globe-color: var(--light-red);
+}
+
+.lightrope li:nth-child(5n + 2) {
+  --globe-color: var(--light-blue);
+}
+
+.lightrope li:nth-child(5n + 3) {
+  --globe-color: var(--light-green);
+}
+
+.lightrope li:nth-child(5n + 4) {
+  --globe-color: var(--light-orange);
+}
+
+.lightrope li:nth-child(5n + 5) {
+  --globe-color: var(--light-purple);
+}
+
+.lightrope li:nth-child(odd) {
+  animation-duration: 1.8s;
+}
+
+.lightrope li:nth-child(3n + 1) {
+  animation-duration: 1.4s;
+}
+
+.lightrope li:nth-child(4n + 1) {
+  transform: rotate(-6deg) translateY(2px);
+}
+
+.lightrope li:nth-child(4n + 2) {
+  transform: rotate(4deg) translateY(-3px);
+}
+
+.lightrope li:nth-child(4n + 3) {
+  transform: rotate(-3deg) translateY(1px);
+}
+
+.lightrope li:nth-child(4n + 4) {
+  transform: rotate(5deg) translateY(-2px);
+}
+
+.lightrope li::before {
+  content: "";
+  position: absolute;
+  background: #222;
+  width: 10px;
+  height: 9.3333px;
+  border-radius: 3px;
+  top: -4.6667px;
+  left: 1px;
+}
+
+.lightrope li::after {
+  content: "";
+  top: -14px;
+  left: 9px;
+  position: absolute;
+  width: 52px;
+  height: 18.6667px;
+  border-bottom: solid #222 2px;
+  border-radius: 50%;
+}
+
+.lightrope li:last-child::after {
+  content: none;
+}
+
+.lightrope li:first-child {
+  margin-left: -40px;
+}
+
+@keyframes flash {
+  0%,
+  100% {
+    background: rgba(var(--globe-color), 1);
+    box-shadow: 0px 4.6667px 24px 3px rgba(var(--globe-color), 1);
+  }
+  50% {
+    background: rgba(var(--globe-color), var(--light-off-opacity));
+    box-shadow: 0px 4.6667px 24px 3px rgba(var(--globe-color), 0.2);
+  }
+}

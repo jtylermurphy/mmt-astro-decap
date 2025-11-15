@@ -5,6 +5,7 @@
 
 @import "tailwindcss";
 @import "@fortawesome/fontawesome-svg-core/styles.css";
+@import "./christmas.css"; /* optional holiday lights */
 
 /* ---------------------------------------------------------------------- */
 /* Brand tokens                                                            */
