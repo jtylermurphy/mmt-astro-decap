@@ -1,5 +1,7 @@
 import { icon } from "@fortawesome/fontawesome-svg-core";
 import { faPhone } from "@fortawesome/free-solid-svg-icons";
+import { faTreeChristmas } from "@awesome.me/kit-bef3fccedf/icons/classic/regular";
+
 import { faEnvelope, faClock, faCalendarDays } from "@fortawesome/free-regular-svg-icons";
 import {
   faFacebook,
@@ -21,4 +23,5 @@ export const icons = {
   youtube: icon(faYoutube).html.join(""),
   threads: icon(faThreads).html.join(""),
   xtwitter: icon(faXTwitter).html.join(""),
+  christmastree: icon(faTreeChristmas).html.join(""),
 };

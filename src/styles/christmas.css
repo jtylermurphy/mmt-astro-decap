@@ -19,6 +19,12 @@
   width: 100%;
 }
 
+@media screen and (max-width: 767px) {
+  .lightrope {
+    top: 4rem;
+  }
+}
+
 .lightrope li {
   position: relative;
   animation-fill-mode: both;
