@@ -1,7 +1,7 @@
 ---
 title: Christmas Lights Tour
 tour_type: standard
-price: 19
+price: 25
 duration: 90 min
 image: /images/christmaslights.jpg
 booking_url: https://bookeo.com/midmotours?type=41567TF6K7F19A85F10869
