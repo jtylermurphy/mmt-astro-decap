@@ -11,6 +11,13 @@
   status = 301
   force  = true
 
+# Redirect: /holiday-lights → /tours/christmas-lights
+[[redirects]]
+  from = "/holiday-lights/*"
+  to   = "/tours/christmas-lights"
+  status = 301
+  force  = true
+
 # Security headers (safe defaults)
 [[headers]]
   for = "/*"
