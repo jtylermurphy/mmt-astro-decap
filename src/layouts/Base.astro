@@ -10,6 +10,7 @@ const {
   pageClass = "",
 } = Astro.props;
 const { header, footer } = await loadChrome();
+const canonical = new URL(Astro.url.pathname, "https://midmotours.com").toString();
 ---
 
 <html lang="en" class="h-full">
@@ -33,7 +34,7 @@ const { header, footer } = await loadChrome();
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="icon" type="image" href="/favicon.png" />
-
+    <link rel="canonical" href={canonical} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
