@@ -7,10 +7,14 @@ import { loadChrome } from "@/lib/data/chrome";
 const {
   title = "Mid MO Tours",
   description = "Guided tours and shuttles in Jefferson City",
+  image = "/uploads/tour-standard-hero.png",
+  ogType = "website",
   pageClass = "",
 } = Astro.props;
 const { header, footer } = await loadChrome();
+const siteUrl = "https://midmotours.com";
 const canonical = new URL(Astro.url.pathname, "https://midmotours.com").toString();
+const ogImage = new URL(image, siteUrl).toString();
 ---
 
 <html lang="en" class="h-full">
@@ -34,6 +38,21 @@ const canonical = new URL(Astro.url.pathname, "https://midmotours.com").toString
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="icon" type="image" href="/favicon.png" />
+    <meta property="og:site_name" content="Mid Mo Tours" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:type" content={ogType} />
+
+    <meta property="og:image" content={ogImage} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:site" content="@midmotours" />
+    <meta name="twitter:creator" content="@midmotours" />
+
     <link rel="canonical" href={canonical} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
