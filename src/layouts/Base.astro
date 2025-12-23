@@ -63,6 +63,24 @@ const ogImage = new URL(image, siteUrl).toString();
       href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500..900;1,500..900&family=Inter:wght@100..900&display=swap"
       rel="stylesheet"
     />
+  </head>
+  <body class={`bg-gray-100 min-h-screen flex flex-col text-slate-800 ${pageClass}`}>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript
+      ><iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-KJHMSSJF"
+        height="0"
+        width="0"
+        style="display:none;visibility:hidden"></iframe></noscript
+    >
+    <!-- End Google Tag Manager (noscript) -->
+    <HeaderNav {...header} />
+
+    <main id="main" class="grow w-full mx-auto max-w-7xl px-4 py-12">
+      <slot />
+    </main>
+
+    <Footer {...footer} />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -72,10 +90,13 @@ const ogImage = new URL(image, siteUrl).toString();
         "telephone": "+1-573-826-9236",
         "email": "info@midmotours.com",
         "image": "https://midmotours.com/uploads/tour-standard-hero.png",
-        "areaServed": {
-          "@type": "City",
-          "name": "Jefferson City",
-          "address": { "@type": "PostalAddress", "addressRegion": "MO", "addressCountry": "US" }
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "610 Bolivar St.",
+          "addressLocality": "Jefferson City",
+          "addressRegion": "MO",
+          "postalCode": "65101",
+          "addressCountry": "US"
         },
         "sameAs": [
           "https://www.facebook.com/profile.php?id=61581798931233",
@@ -95,23 +116,5 @@ const ogImage = new URL(image, siteUrl).toString();
         "serviceType": "Guided tours and shuttles"
       }
     </script>
-  </head>
-  <body class={`bg-gray-100 min-h-screen flex flex-col text-slate-800 ${pageClass}`}>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript
-      ><iframe
-        src="https://www.googletagmanager.com/ns.html?id=GTM-KJHMSSJF"
-        height="0"
-        width="0"
-        style="display:none;visibility:hidden"></iframe></noscript
-    >
-    <!-- End Google Tag Manager (noscript) -->
-    <HeaderNav {...header} />
-
-    <main id="main" class="grow w-full mx-auto max-w-7xl px-4 py-12">
-      <slot />
-    </main>
-
-    <Footer {...footer} />
   </body>
 </html>
