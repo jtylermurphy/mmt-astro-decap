@@ -38,6 +38,9 @@ const ogImage = new URL(image, siteUrl).toString();
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="icon" type="image" href="/favicon.png" />
+    <meta name="robots" content="index,follow" />
+    <meta name="geo.region" content="US-MO" />
+    <meta name="geo.placename" content="Jefferson City" />
     <meta property="og:site_name" content="Mid Mo Tours" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -60,6 +63,38 @@ const ogImage = new URL(image, siteUrl).toString();
       href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500..900;1,500..900&family=Inter:wght@100..900&display=swap"
       rel="stylesheet"
     />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Mid MO Tours",
+        "url": "https://midmotours.com/",
+        "telephone": "+1-573-826-9236",
+        "email": "info@midmotours.com",
+        "image": "https://midmotours.com/uploads/tour-standard-hero.png",
+        "areaServed": {
+          "@type": "City",
+          "name": "Jefferson City",
+          "address": { "@type": "PostalAddress", "addressRegion": "MO", "addressCountry": "US" }
+        },
+        "sameAs": [
+          "https://www.facebook.com/profile.php?id=61581798931233",
+          "https://www.instagram.com/midmotours",
+          "https://x.com/midmotours"
+        ]
+      }
+    </script>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "name": "Jefferson City Tours",
+        "provider": { "@type": "LocalBusiness", "name": "Mid MO Tours", "url": "https://midmotours.com/" },
+        "areaServed": { "@type": "City", "name": "Jefferson City" },
+        "serviceType": "Guided tours and shuttles"
+      }
+    </script>
   </head>
   <body class={`bg-gray-100 min-h-screen flex flex-col text-slate-800 ${pageClass}`}>
     <!-- Google Tag Manager (noscript) -->

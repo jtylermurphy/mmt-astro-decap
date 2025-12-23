@@ -14,37 +14,43 @@ const featured = [
     scheduleText: "Daily 11:30am & 1:30pm",
     priceNumber: 39,
     thumbnailSrc: "/images/highlights.jpg",
+    thumbnailAlt: "Highlights tour of Jefferson City, Missouri",
     href: "/tours/highlightstour",
     bookingUrl: "/tours/highlightstour",
     kind: "standard" as const,
     ctaLabel: "View Details",
+    ctaAriaLabel: "View details for the Jefferson City Highlights Tour",
   },
   {
     title: "Custom Tours",
     teaser: "Build your own itinerary—history, art, food, or faith landmarks.",
     duration: "You choose",
     thumbnailSrc: "/images/packages.jpg",
+    thumbnailAlt: "Custom Jefferson City tour packages and itineraries",
     href: "/tours/custom",
     formUrl: "/tours/custom",
     kind: "custom" as const,
     ctaLabel: "View Details",
+    ctaAriaLabel: "View details for the Jefferson City Custom Tours",
   },
   {
     title: "Packages",
     teaser: "Bundle tours with local experiences for groups and events.",
     duration: "Half-day / Full-day",
     thumbnailSrc: "/images/david.jpg",
+    thumbnailAlt: "Group tour packages in Jefferson City and Mid-Missouri",
     href: "/packages",
     formUrl: "/packages",
     kind: "package" as const,
     ctaLabel: "See Packages",
+    ctaAriaLabel: "View details for Tour Packages",
   },
 ];
 ---
 
 <Base
-  title="Mid MO Tours | Jefferson City Tours & Shuttles"
-  description="Guided tours of Jefferson City plus custom itineraries and packages.">
+  title="Jefferson City Tours & Shuttles | Mid MO Tours "
+  description="Jefferson City tours in Missouri with a local guide. Ride in comfort to top sights like the Capitol & Governor’s Mansion, or plan a custom tour. Book online.">
   <Hero />
   <ChristmasHero />
   <FeaturedTours items={featured} />

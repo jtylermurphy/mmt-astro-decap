@@ -10,10 +10,12 @@ type Card = {
   priceText?: string;
   scheduleText?: string;
   thumbnailSrc?: string;
+  thumbnailAlt?: string;
   href?: string;
   formUrl?: string;
   bookingUrl?: string;
   ctaLabel?: string;
+  ctaAriaLabel?: string;
 };
 
 interface Props {
@@ -46,10 +48,12 @@ const { title, intro, items = [] } = Astro.props as Props;
             scheduleText={card.scheduleText}
             priceNumber={card.priceNumber}
             thumbnailSrc={card.thumbnailSrc}
+            thumbnailAlt={card.thumbnailAlt}
             href={card.href}
             formUrl={card.formUrl}
             bookingUrl={card.bookingUrl}
             ctaLabel={card.ctaLabel ?? (card.bookingUrl ? "Book Now" : card.formUrl ? "Request Info" : "See Details")}
+            ctaAriaLabel={card.ctaAriaLabel}
           />
         ))
       }

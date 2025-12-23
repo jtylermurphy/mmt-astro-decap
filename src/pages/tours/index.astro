@@ -12,11 +12,13 @@ type CardInput = {
   priceNumber?: number;
   scheduleText?: string;
   thumbnailSrc?: string;
+  thumbnailAlt?: string;
   href?: string;
   bookingUrl?: string;
   formUrl?: string;
   kind?: TourKind;
   ctaLabel?: string;
+  ctaAriaLabel?: string;
 };
 
 const tiles = [
@@ -27,30 +29,36 @@ const tiles = [
     scheduleText: "Daily 11:30am & 1:30pm",
     priceNumber: 39,
     thumbnailSrc: "/images/highlights.jpg",
+    thumbnailAlt: "Highlights Tour promotional image",
     href: "/tours/highlightstour",
     bookingUrl: "/tours/highlightstour",
     kind: "standard" as const,
     ctaLabel: "View Details",
+    ctaAriaLabel: "View Details: Highlights Tour",
   },
   {
     title: "Custom Tours",
     teaser: "Build your own route—history, art, faith, food, and more.",
     duration: "You choose",
     thumbnailSrc: "/images/packages.jpg",
+    thumbnailAlt: "Custom Tours promotional image",
     href: "/tours/custom",
     formUrl: "/tours/custom",
     kind: "custom" as const,
     ctaLabel: "Request Info",
+    ctaAriaLabel: "Request Info: Custom Tours",
   },
   {
     title: "Packages",
     teaser: "Bundle tours with local experiences for groups & events.",
     duration: "Half-day / Full-day",
     thumbnailSrc: "/images/david.jpg",
+    thumbnailAlt: "Packages promotional image",
     href: "/packages",
     formUrl: "/packages/",
     kind: "package" as const,
     ctaLabel: "See Packages",
+    ctaAriaLabel: "See Packages: Packages",
   },
 ] satisfies CardInput[];
 ---

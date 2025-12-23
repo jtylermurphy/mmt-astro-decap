@@ -12,14 +12,30 @@ interface Props {
   priceNumber?: number; // e.g., 39 -> "$39 per person"
   scheduleText?: string; // e.g., "Daily 9am & 1pm"
   thumbnailSrc?: string;
+  thumbnailAlt?: string;
   href?: string; // details page
   bookingUrl?: string; // direct booking
   formUrl?: string; // request form (for custom/packages)
   kind?: TourKind;
   ctaLabel?: string; // optional override
+  ctaAriaLabel?: string;
 }
 
-const { title, teaser, duration, priceNumber, scheduleText, thumbnailSrc, href, bookingUrl, formUrl, kind, ctaLabel } =
+const {
+  title,
+  teaser,
+  duration,
+  priceNumber,
+  scheduleText,
+  thumbnailSrc,
+  thumbnailAlt,
+  href,
+  bookingUrl,
+  formUrl,
+  kind,
+  ctaLabel,
+  ctaAriaLabel,
+} =
   Astro.props as Props;
 
 function formatPrice(n?: number) {
@@ -39,7 +55,13 @@ const ctaText = ctaLabel ?? (bookingUrl ? "Book Now" : formUrl ? "Request Info" 
   {
     thumbnailSrc && (
       <a href={href ?? ctaHref} class="block">
-        <img src={thumbnailSrc} alt="" class="h-48 w-full object-cover rounded-sm" loading="lazy" decoding="async" />
+        <img
+          src={thumbnailSrc}
+          alt={thumbnailAlt ?? title ?? ""}
+          class="h-48 w-full object-cover rounded-sm"
+          loading="lazy"
+          decoding="async"
+        />
       </a>
     )
   }
@@ -109,7 +131,7 @@ const ctaText = ctaLabel ?? (bookingUrl ? "Book Now" : formUrl ? "Request Info" 
     </dl>
 
     <div class="pt-1">
-      <a href={ctaHref} class="btn btn-secondary">
+      <a href={ctaHref} class="btn btn-secondary" aria-label={ctaAriaLabel ?? `View Details: ${title}`}>
         {ctaText}
       </a>
     </div>
