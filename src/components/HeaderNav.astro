@@ -1,7 +1,6 @@
 ---
 /* src/components/HeaderNav.astro */
 import Icon from "@/components/Icon.astro";
-import ChristmasLights from "@/components/ChristmasLights.astro";
 import { icons } from "@/lib/icons";
 import type { HeaderNavProps } from "@/lib/data/site";
 import SocialLinks from "@/components/SocialLinks.astro";
@@ -11,7 +10,6 @@ const { siteName, logoSrc, logoAlt = siteName, sticky, links, cta, contact, soci
 ---
 
 <header class={`bg-white border-b-[3px] border-primary ${sticky ? "sticky top-0 z-40" : ""}`}>
-  <ChristmasLights />
   <!-- Top bar -->
   <div class="bg-secondary text-white hidden md:block pt-12">
     <div
