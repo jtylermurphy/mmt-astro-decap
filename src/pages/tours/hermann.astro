@@ -1,0 +1,174 @@
+---
+// src/pages/tours/hermann.astro
+import Base from "@/layouts/Base.astro";
+import Icon from "@/components/Icon.astro";
+import { icons } from "@/lib/icons";
+import { getEntry } from "astro:content";
+
+const entry = await getEntry("tours", "hermann");
+if (!entry) {
+  throw new Error("Tour entry is missing. Ensure the tour exists in src/content/tours.");
+}
+const tour = entry.data;
+
+const heroCopy = `
+<p>Escape to Hermann, Missouri — a charming German-heritage town nestled along the Missouri River, renowned for its award-winning wineries, historic downtown, and warm small-town hospitality.</p>
+<p class="mt-2">Choose your adventure: ride with us and explore on your own, or let us guide you through the best of Hermann's wine country — with an optional lunch to complete the day.</p>
+`;
+
+const packages = [
+  {
+    name: "Transport Only",
+    description:
+      "We handle the driving — you plan the adventure. Drop-off and pick-up in Hermann with free time to explore wineries, shops, and restaurants at your own pace.",
+    price: "$575 per trip (up to 14 passengers)",
+    bookingUrl: tour.booking_url,
+    includes: ["Round-trip transportation", "Flexible schedule", "Local tips & recommendations"],
+    image: "/images/winery-tour-transport.jpg",
+  },
+  {
+    name: "Winery Tour",
+    description:
+      "Skip the planning — we'll guide you through Hermann's finest wineries with curated tastings and local stories.",
+    price: "$975 per trip (up to 14 passengers)",
+    bookingUrl: tour.booking_url,
+    includes: ["Round-trip transportation", "Guided visits to 2–3 wineries", "Wine tastings included"],
+    image: "/images/winery-tour-tasting.jpg",
+  },
+  {
+    name: "Winery Tour + Lunch",
+    description: "The full Hermann experience. Guided winery visits plus a delicious lunch at a local favorite.",
+    price: "$1375 per trip (up to 14 passengers)",
+    bookingUrl: tour.booking_url,
+    includes: [
+      "Round-trip transportation",
+      "Guided visits to 2–3 wineries",
+      "Wine tastings included",
+      "Lunch included",
+    ],
+    image: "/images/winery-tour.jpg",
+  },
+];
+
+const goodToKnow = [
+  "Departs from Jefferson City (pickup location TBD).",
+  "Approximate departure time 10am — check back soon for scheduling.",
+  "Up to 14 passengers per trip.",
+  "Private group bookings available.",
+  "Contact us for custom itineraries and group rates.",
+];
+
+const heroImage = tour.image ?? "/images/hermann.jpg";
+---
+
+<Base
+  title={`${tour.title} | Mid Mo Tours`}
+  description={tour.short_description ?? "A scenic day trip to Hermann, MO wine country."}>
+  <section class="relative isolate overflow-hidden rounded-3xl bg-white shadow-lg">
+    <div class="grid gap-8 lg:grid-cols-2">
+      <div class="space-y-6 p-8 sm:p-10 order-2 lg:order-1">
+        <p
+          class="inline-flex items-center gap-2 text-xs md:text-sm uppercase tracking-[0.2em] text-primary font-semibold">
+          <Icon html={icons.calendar} /> Day Trip
+        </p>
+        <h1 class="text-4xl font-serif font-black italic text-slate-900 sm:text-5xl">
+          {tour.title ?? "Hermann Wine Country Tour"}
+        </h1>
+        <div class="prose prose-invert max-w-none text-slate-700" set:html={heroCopy} />
+        <div class="flex flex-wrap items-center gap-3 text-sm text-slate-600">
+          <span class="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 font-medium text-primary">
+            <Icon html={icons.clock} />
+            {tour.duration ?? "Full day"}
+          </span>
+          <span class="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 font-medium text-primary">
+            <Icon html={icons.calendar} /> Departures 10am
+          </span>
+          <span class="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 font-medium text-primary">
+            3 packages available
+          </span>
+        </div>
+        <div class="flex flex-col gap-3 sm:flex-row">
+          <a href={tour.booking_url} class="btn btn-primary">Book the Wine Country Tour</a>
+          <a href="/contact" class="btn btn-outline">Ask a Question</a>
+        </div>
+      </div>
+      <div class="relative order-1">
+        <img
+          src={heroImage}
+          alt={tour.title ?? "Hermann Wine Country Tour"}
+          class="h-full w-full rounded-b-3xl object-cover lg:rounded-r-3xl lg:rounded-bl-none"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="mt-16">
+    <h2 class="text-3xl font-serif font-semibold text-slate-900 mb-6">Choose Your Package</h2>
+    <div class="grid gap-6 md:grid-cols-3">
+      {
+        packages.map((pkg) => (
+          <article class="flex flex-col rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+            {pkg.image && (
+              <img src={pkg.image} alt={pkg.name} class="w-full h-48 object-cover" loading="lazy" decoding="async" />
+            )}
+            <div class="flex flex-col flex-1 p-6">
+              <h3 class="text-xl font-serif font-semibold text-slate-900">{pkg.name}</h3>
+              <p class="mt-3 text-slate-600 text-sm flex-1">{pkg.description}</p>
+              <ul class="mt-4 space-y-2">
+                {pkg.includes.map((item) => (
+                  <li class="flex items-start gap-3 text-sm text-slate-700">
+                    <span class="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                      ✓
+                    </span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <p class="mt-5 text-lg font-serif font-semibold text-primary">{pkg.price}</p>
+              <a href={pkg.bookingUrl} class="btn btn-primary mt-4">
+                Book {pkg.name}
+              </a>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="mt-16">
+    <div class="rounded-2xl border border-slate-200 bg-slate-900 p-8 text-slate-100 shadow-sm">
+      <h2 class="text-2xl font-serif font-semibold">Good to Know</h2>
+      <ul class="mt-4 space-y-3 text-sm">
+        {
+          goodToKnow.map((item) => (
+            <li class="flex gap-2">
+              <span class="mt-0.5 text-primary">•</span>
+              <span>{item}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="mt-16 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+    <div class="grid gap-6 md:grid-cols-2 md:items-center">
+      <div>
+        <p class="text-sm font-semibold uppercase tracking-wide text-primary">Ready to go?</p>
+        <h2 class="mt-2 text-3xl font-serif font-semibold text-slate-900">
+          Reserve your spot on the Hermann&nbsp;Wine&nbsp;Country&nbsp;Tour
+        </h2>
+        <p class="mt-3 text-slate-600">
+          Spots fill up fast on popular weekends. Book now to secure your preferred package, or reach out to customize
+          the experience for your group.
+        </p>
+      </div>
+      <div class="flex flex-col gap-3 sm:flex-row sm:justify-end">
+        <a href={tour.booking_url} class="btn btn-primary">Book Now</a>
+        <a href="tel:5738269236" class="btn btn-outline">Call 573-826-9236</a>
+      </div>
+    </div>
+  </section>
+</Base>
