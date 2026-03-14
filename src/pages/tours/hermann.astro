@@ -58,12 +58,13 @@ const goodToKnow = [
   "Contact us for custom itineraries and group rates.",
 ];
 
-const heroImage = tour.image ?? "/images/hermann.jpg";
+const heroImage = tour.image ?? "/images/winery-tour-intro.jpg";
 ---
 
 <Base
   title={`${tour.title} | Mid Mo Tours`}
-  description={tour.short_description ?? "A scenic day trip to Hermann, MO wine country."}>
+  description={tour.short_description ?? "A scenic day trip to Hermann, MO wine country."}
+  image="/images/winery-tour-intro.jpg">
   <section class="relative isolate overflow-hidden rounded-3xl bg-white shadow-lg">
     <div class="grid gap-8 lg:grid-cols-2">
       <div class="space-y-6 p-8 sm:p-10 order-2 lg:order-1">

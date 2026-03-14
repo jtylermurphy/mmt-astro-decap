@@ -3,7 +3,7 @@ title: Hermann Wine Country Tour
 tour_type: package
 price: 0
 duration: Full day
-image: /images/winery-tour.jpg
+image: /images/winery-tour-intro.jpg
 booking_url: https://bookeo.com/midmotours
 short_description: A scenic day trip to Hermann, MO — choose your own adventure or let us plan everything, including winery tours and lunch.
 active: true
