@@ -20,7 +20,7 @@ const corsHeaders = (origin) => {
   };
 };
 
-exports.handler = async (event) => {
+export const handler = async (event) => {
   const origin = event.headers.origin || event.headers.Origin || "";
   const baseHeaders = corsHeaders(origin);
 

@@ -28,7 +28,7 @@ const formatLine = (label, value) => {
   return `<p><strong>${label}:</strong> ${value}</p>`;
 };
 
-exports.handler = async (event) => {
+export const handler = async (event) => {
   if (event.httpMethod !== "POST") {
     return {
       statusCode: 405,
